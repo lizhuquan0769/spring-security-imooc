@@ -1,7 +1,8 @@
 package com.imooc.security.core.properties;
 
 public class BrowserProperties {
-	private String loginPage;
+	
+	private String loginPage = "/imooc-signin.html";
 
 	public String getLoginPage() {
 		return loginPage;

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -19,18 +20,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.imooc.security.browser.support.SimpleResponse;
+import com.imooc.security.core.properties.SecurityProperties;
 
 @RestController
 public class BrowserSecurityController {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
-	/**
-	 * 请求缓存
-	 */
 	private RequestCache requestCache = new HttpSessionRequestCache();
 	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
+	@Autowired
+	private SecurityProperties securityProperties;
 	
 	/**
 	 * 当需要身份验证的时候, 跳转到这里
@@ -49,7 +51,7 @@ public class BrowserSecurityController {
 			logger.info("引发跳转的请求是：" + targetUrl);
 			if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {
 				// 如果是页面请求, 重定向回去
-				redirectStrategy.sendRedirect(request, response, targetUrl);
+				redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
 			}
 		}
 		
