@@ -1,0 +1,35 @@
+1. 可用@GetMapping/@PostMapping等 代替 @RequestMapping
+
+2. 可配置JsonView来控制实体属性输出
+
+3. @RequestMapping里配置的Url参数可使用正则表达式
+
+4. 编写代码, 用例先行; 可使用MockMvc编写测试用例。 
+	当有测试用例的时候, 可用来校验重构代码后业务依然不受影响。
+
+5. @RequestBody 可以使请求中的body转为实体参数
+
+6. 时间参数的请求和返回, 都使用时间戳来传输
+
+7. 使用Hibernate Validator注解对请求参数进行校验, 
+	controller中需要为请求参数添加@Valid注解来激活参数校验功能,
+	如需定制参数校验失败的处理, 可在controller的请求参数列表中追加BindingResult参数, 这样子就不会直接返回400, 而是可定制处理
+	也可以继承ConstraintValidator来自定义校验注解
+	
+8. 可在src/main/resources/创建resources/error目录, 创建404.html页面来响应浏览器错误页
+
+9. 可通过@ControllerAdvice定义自定义异常
+
+10. 通过注册FilterRegistratorBean这个bean来注入过滤器, 过滤器需要实现Filter接口
+	注意, 建议通过FilterRegistrationBean来注入filter
+
+11. 通过注册InterceptorRegistratorBean这个bean来注入拦截器, 拦截器需要实现HandlerInterceptor接口, 
+	值得注意的是, 如果Controller抛出的异常被ControllerAdvice处理掉的话, 则Interceptor的afterCompletion方法会接收不到ex参数
+	
+12. Controller通过MultipartFile参数来接收上传文件
+
+13. 异步请求方式有两种， 分别是Callable<T>和DeferredResult<T>
+
+14. 使用Swagger去自动生成api文档
+
+15. 使用WireMock去伪造Restful服务

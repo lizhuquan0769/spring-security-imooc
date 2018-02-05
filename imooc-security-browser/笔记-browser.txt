@@ -1,0 +1,9 @@
+1. SpringSecurity过滤器链原理
+	一个认证过滤器链（UsernamePassword/Basic/...）-> ExceptionTranslationFilter -> FilterSecurityInterceptor
+
+2. 登陆相关的逻辑
+	UserDetailsService 处理用户登陆信息的获取逻辑
+	UserDetails 处理用户校验的逻辑
+	PasswordEncoder 处理密码的加密解密
+
+3. PasswordEncoder可对用户的密码进行加密和校验

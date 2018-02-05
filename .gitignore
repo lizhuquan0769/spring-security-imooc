@@ -1,0 +1,16 @@
+﻿# eclipse 项目文件
+.settings
+.classpath
+.project
+
+# idea 项目文件
+.idea
+*.*iml
+
+# 编译文件
+/target/
+/bin/
+
+# spring boot本地配置文件
+application-local.yml
+application-local.properties
