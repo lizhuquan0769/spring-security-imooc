@@ -10,7 +10,7 @@
 		<imooc.security.version>1.0.0-SNAPSHOT</imooc.security.version>
 	</properties>
 
-	<dependencyManagement> 
+	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>io.spring.platform</groupId>
