@@ -27,8 +27,11 @@ public class BrowserSecurityController {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
+	// 重定向到身份验证url前， 会在Session塞一个SavedRequest对象（具体可查看源码ExceptionTranslationFilter.sendStartAuthentication方法）， 
+	// 通过RequestCache.getRequest()可获取到
 	private RequestCache requestCache = new HttpSessionRequestCache();
 	
+	// 工具类，方便拼装重定向url
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Autowired
@@ -52,6 +55,7 @@ public class BrowserSecurityController {
 			if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {
 				// 如果是页面请求, 重定向回去
 				redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
+				return null;
 			}
 		}
 		

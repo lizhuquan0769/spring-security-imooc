@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 //@Aspect
 //@Component
 public class TimeAspect {
-	
+
 	@Around("execution(* com.imooc.web.controller.UserController.*(..))")
 	public Object handleControllerMethod(ProceedingJoinPoint pjp) throws Throwable {
 		System.out.println("time aspect start...");
