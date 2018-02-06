@@ -1,4 +1,4 @@
-package com.imooc.security.browser;
+package com.imooc.security.browser.controller;
 
 import java.io.IOException;
 

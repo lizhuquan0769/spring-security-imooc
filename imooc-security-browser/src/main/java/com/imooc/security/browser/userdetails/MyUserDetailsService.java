@@ -1,4 +1,4 @@
-package com.imooc.security.browser;
+package com.imooc.security.browser.userdetails;
 
 import java.util.List;
 
