@@ -22,7 +22,7 @@ import com.imooc.security.core.properties.contsant.LoginTypeEnum;
  * @author Administrator
  *
  */
-//@Component
+@Component
 public class DemoAuthencationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());

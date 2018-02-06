@@ -23,7 +23,7 @@ import com.imooc.security.core.properties.contsant.LoginTypeEnum;
  * @author Administrator
  *
  */
-//@Component
+@Component
 public class DemoAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
