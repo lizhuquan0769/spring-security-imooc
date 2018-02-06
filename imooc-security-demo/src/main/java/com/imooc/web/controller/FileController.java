@@ -21,7 +21,7 @@ import com.imooc.dto.FileInfo;
 @RestController
 @RequestMapping("/files")
 public class FileController {
-	private String folder = "C:/work/workspace_springsecurity/imooc-security-demo/src/main/java/com/imooc/web/controller";
+	private String folder = "C:/";
 	
 	@PostMapping
 	public FileInfo upload(MultipartFile file) throws Exception {

@@ -35,7 +35,7 @@ public class UserControllerTest {
 	
 	@Test
 	public void whenQuerySuccess() throws Exception {
-		String result = mockMvc.perform(get("/user")
+		String result = mockMvc.perform(get("/users")
 					// UserQueryCondition对象参数
 					.param("username", "jojo")
 					.param("age", "18")
@@ -58,7 +58,7 @@ public class UserControllerTest {
 	
 	@Test
 	public void whenGetInfoSuccess() throws Exception {
-		String result = mockMvc.perform(get("/user/1")
+		String result = mockMvc.perform(get("/users/1")
 					.contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.username").value("tom"))
@@ -68,7 +68,7 @@ public class UserControllerTest {
 	
 	@Test
 	public void whenGetInfoFail() throws Exception {
-		mockMvc.perform(get("/user/a")
+		mockMvc.perform(get("/users/a")
 					.contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().is4xxClientError());
 	}
@@ -79,7 +79,7 @@ public class UserControllerTest {
 		System.out.println("请求date: " + date);
 		String content = "{\"username\":\"tom\", \"password\":null, \"birthday\": " + date.getTime() + "}";
 		System.out.println("请求json: " + content);
-		String result = mockMvc.perform(post("/user")
+		String result = mockMvc.perform(post("/users")
 					.contentType(MediaType.APPLICATION_JSON_UTF8)
 					.content(content))
 				.andExpect(status().isOk())
@@ -94,7 +94,7 @@ public class UserControllerTest {
 		System.out.println("请求date: " + date);
 		String content = "{\"id\":\"1\", \"username\":\"tom\", \"password\":null, \"birthday\": " + date.getTime() + "}";
 		System.out.println("请求json: " + content);
-		String result = mockMvc.perform(put("/user/1")
+		String result = mockMvc.perform(put("/users/1")
 					.contentType(MediaType.APPLICATION_JSON_UTF8)
 					.content(content))
 				.andExpect(status().isOk())
@@ -105,7 +105,7 @@ public class UserControllerTest {
 	
 	@Test
 	public void whenDeleteSuccess() throws Exception {
-		mockMvc.perform(delete("/user/1")
+		mockMvc.perform(delete("/users/1")
 					.contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk());
 	}
