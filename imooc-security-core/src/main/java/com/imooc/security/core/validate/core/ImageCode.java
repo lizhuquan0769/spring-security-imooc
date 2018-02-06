@@ -51,4 +51,8 @@ public class ImageCode {
 	public String toString() {
 		return "ImageCode [image=" + image + ", code=" + code + ", expireTime=" + expireTime + "]";
 	}
+
+	public boolean isExpired() {
+		return expireTime.isBefore(LocalDateTime.now());
+	}
 }

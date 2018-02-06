@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.imooc.security.core.properties.SecurityProperties;
 
 @RestController
 public class ValidateCodeController {
@@ -26,12 +27,12 @@ public class ValidateCodeController {
 	@Autowired
 	private DefaultKaptcha kaptcha;
 	
+	@Autowired
+	private SecurityProperties securityProperties;
+	
 	@GetMapping("/code/image")
 	public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		System.out.println("上一个验证码：" + sessionStrategy.getAttribute(new ServletWebRequest(request), SESSION_KEY));
-		
 		ImageCode imageCode = createImageCode(request);
-		
 		sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY, imageCode);
 		
 		ImageIO.write(imageCode.getImage(), "JPEG", response.getOutputStream());
@@ -40,6 +41,6 @@ public class ValidateCodeController {
 	private ImageCode createImageCode(HttpServletRequest request) {
 		String captchaText = kaptcha.createText();
 		BufferedImage captchaImage = kaptcha.createImage(captchaText);
-		return new ImageCode(captchaImage, captchaText, 60);
+		return new ImageCode(captchaImage, captchaText, securityProperties.getCode().getImage().getExpireIn());
 	}
 }

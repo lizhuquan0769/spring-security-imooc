@@ -48,7 +48,7 @@ public class DemoAuthencationSuccessHandler extends SavedRequestAwareAuthenticat
 		if (LoginTypeEnum.JSON.equals(securityProperties.getBrowser().getLoginType())) {
 			response.setContentType("application/json;charset=UTF-8");
 			response.getWriter().write(objectMapper.writeValueAsString(authentication));
-		} else if (LoginTypeEnum.REDIRECT.equals(securityProperties.getBrowser().getLoginType())) {
+		} else if (LoginTypeEnum.DIRECT.equals(securityProperties.getBrowser().getLoginType())) {
 			// 跳转
 			super.onAuthenticationSuccess(request, response, authentication);
 		}

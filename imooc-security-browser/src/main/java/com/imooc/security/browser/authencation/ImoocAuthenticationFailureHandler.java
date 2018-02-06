@@ -39,8 +39,8 @@ public class ImoocAuthenticationFailureHandler extends SimpleUrlAuthenticationFa
 		if (LoginTypeEnum.JSON.equals(securityProperties.getBrowser().getLoginType())) {
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			response.setContentType("application/json;charset=UTF-8");
-			response.getWriter().write(objectMapper.writeValueAsString(exception));
-		} else if (LoginTypeEnum.REDIRECT.equals(securityProperties.getBrowser().getLoginType())) {
+			response.getWriter().write(objectMapper.writeValueAsString(exception.getMessage()));
+		} else if (LoginTypeEnum.DIRECT.equals(securityProperties.getBrowser().getLoginType())) {
 			super.onAuthenticationFailure(request, response, exception);
 		}
 		
