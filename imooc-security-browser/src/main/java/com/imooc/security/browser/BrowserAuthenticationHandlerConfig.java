@@ -21,5 +21,5 @@ public class BrowserAuthenticationHandlerConfig {
 	@ConditionalOnMissingBean(value = AuthenticationFailureHandler.class)
 	public AuthenticationFailureHandler authenticationFailureHandler() {
 		return new ImoocAuthenticationFailureHandler();
-	}
+	} 
 }
