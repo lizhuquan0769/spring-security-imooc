@@ -38,13 +38,13 @@ public class BrowserSecurityController {
 	private SecurityProperties securityProperties;
 	
 	/**
-	 * 当需要身份验证的时候, 跳转到这里
+	 * 当没身份校验时的登陆调试跳转逻辑
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws IOException 
 	 */
-	@RequestMapping("/authentication/require")
+	@RequestMapping("${imooc.security.browser.authentication-dispatch-uri}")
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
@@ -54,7 +54,7 @@ public class BrowserSecurityController {
 			logger.info("引发跳转的请求是：" + targetUrl);
 			if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {
 				// 如果是页面请求, 重定向回去
-				redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
+				redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getImageLoginPage());
 				return null;
 			}
 		}

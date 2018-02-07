@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imooc.security.browser.support.SimpleResponse;
 import com.imooc.security.core.properties.SecurityProperties;
-import com.imooc.security.core.properties.contsant.LoginTypeEnum;
+import com.imooc.security.core.properties.contsant.AuthenticationResponseTypeEnum;
 
 /**
  * 登陆失败处理器demo
@@ -44,11 +44,11 @@ public class DemoAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 		
 		logger.info("demo登陆失败");
 		
-		if (LoginTypeEnum.JSON.equals(securityProperties.getBrowser().getLoginType())) {
+		if (AuthenticationResponseTypeEnum.JSON.equals(securityProperties.getBrowser().getAuthentionResponseType())) {
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			response.setContentType("application/json;charset=UTF-8");
 			response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
-		} else if (LoginTypeEnum.DIRECT.equals(securityProperties.getBrowser().getLoginType())) {
+		} else if (AuthenticationResponseTypeEnum.DIRECT.equals(securityProperties.getBrowser().getAuthentionResponseType())) {
 			super.onAuthenticationFailure(request, response, exception);
 		}
 		

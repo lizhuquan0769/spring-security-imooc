@@ -61,10 +61,10 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		//block 1：表单身份验证
 		http
-//			.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
 			.formLogin() //表单登陆
-				.loginPage("/authentication/require") //表单登陆URL
-				.loginProcessingUrl("/authentication/form") //处理登陆请求的URL
+				.loginPage(securityProperties.getBrowser().getAuthenticationDispatchUri()) //表单登陆URL
+				.loginProcessingUrl(securityProperties.getBrowser().getAuthenticationProcessUri()) //处理登陆请求的URL
 				.successHandler(authenticationSuccessHandler) // 登陆成功处理器
 				.failureHandler(authenticationFailureHandler) // 登陆失败处理器
 		.and()
@@ -75,9 +75,14 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 			.userDetailsService(userDetailsService)
 		.and()
 			.authorizeRequests() //对请求授权
-			.antMatchers("/authentication/require", 
-					securityProperties.getBrowser().getLoginPage(),
-					"/code/image") //对matchers匹配的请求
+			.antMatchers(
+					securityProperties.getBrowser().getAuthenticationDispatchUri(),
+					securityProperties.getBrowser().getAuthenticationProcessUri(),
+					securityProperties.getBrowser().getImageLoginPage(), 
+					securityProperties.getBrowser().getImageCodeUri(),
+					securityProperties.getBrowser().getSmsLoginPage(), 
+					securityProperties.getBrowser().getSmsCodeUri()
+					) //对matchers匹配的请求
 				.permitAll() //放行
 			.anyRequest() //对其它任何请求
 				.authenticated() //需要身份认证

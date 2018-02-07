@@ -38,7 +38,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
 		String[] configUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getImage().getUrl(), ",");
-		urls.add("/authentication/form");
+		urls.add(securityProperties.getBrowser().getAuthenticationProcessUri());
 		for (String configUrl : configUrls) {
 			urls.add(configUrl);
 		}
@@ -69,7 +69,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	}
 
 	private void validate(boolean action, ServletWebRequest request) throws ServletRequestBindingException {
-		ImageCode codeInSession = (ImageCode) sessionStrategy.getAttribute(request, ValidateCodeController.SESSION_KEY);
+		ValidateCode codeInSession = (ValidateCode) sessionStrategy.getAttribute(request, ValidateCodeController.SESSION_KEY);
 		
 		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
 		

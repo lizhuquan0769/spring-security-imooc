@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imooc.security.core.properties.SecurityProperties;
-import com.imooc.security.core.properties.contsant.LoginTypeEnum;
+import com.imooc.security.core.properties.contsant.AuthenticationResponseTypeEnum;
 
 public class ImoocAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
@@ -36,11 +36,11 @@ public class ImoocAuthenticationFailureHandler extends SimpleUrlAuthenticationFa
 		
 		logger.info("imooc登陆失败");
 		
-		if (LoginTypeEnum.JSON.equals(securityProperties.getBrowser().getLoginType())) {
+		if (AuthenticationResponseTypeEnum.JSON.equals(securityProperties.getBrowser().getAuthentionResponseType())) {
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 			response.setContentType("application/json;charset=UTF-8");
 			response.getWriter().write(objectMapper.writeValueAsString(exception.getMessage()));
-		} else if (LoginTypeEnum.DIRECT.equals(securityProperties.getBrowser().getLoginType())) {
+		} else if (AuthenticationResponseTypeEnum.DIRECT.equals(securityProperties.getBrowser().getAuthentionResponseType())) {
 			super.onAuthenticationFailure(request, response, exception);
 		}
 		

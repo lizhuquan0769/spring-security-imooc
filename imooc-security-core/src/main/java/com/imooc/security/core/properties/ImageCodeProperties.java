@@ -1,11 +1,12 @@
 package com.imooc.security.core.properties;
 
 public class ImageCodeProperties {
-	private int width = 67;
-	private int height = 23;
+	private int width = 80;
+	private int height = 45;
 	private int length = 4;
 	private int expireIn = 300;
 	private String url = "*";
+	private int fontSize = 40;
 	
 	public int getWidth() {
 		return width;
@@ -36,5 +37,11 @@ public class ImageCodeProperties {
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public int getFontSize() {
+		return fontSize;
+	}
+	public void setFontSize(int fontSize) {
+		this.fontSize = fontSize;
 	}
 }

@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imooc.security.core.properties.SecurityProperties;
-import com.imooc.security.core.properties.contsant.LoginTypeEnum;
+import com.imooc.security.core.properties.contsant.AuthenticationResponseTypeEnum;
 
 public class ImoocAuthencationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 	
@@ -38,10 +38,10 @@ public class ImoocAuthencationSuccessHandler extends SavedRequestAwareAuthentica
 		
 		logger.info("imooc登陆成功");
 		
-		if (LoginTypeEnum.JSON.equals(securityProperties.getBrowser().getLoginType())) {
+		if (AuthenticationResponseTypeEnum.JSON.equals(securityProperties.getBrowser().getAuthentionResponseType())) {
 			response.setContentType("application/json;charset=UTF-8");
 			response.getWriter().write(objectMapper.writeValueAsString(authentication));
-		} else if (LoginTypeEnum.DIRECT.equals(securityProperties.getBrowser().getLoginType())) {
+		} else if (AuthenticationResponseTypeEnum.DIRECT.equals(securityProperties.getBrowser().getAuthentionResponseType())) {
 			// 跳转
 			super.onAuthenticationSuccess(request, response, authentication);
 		}
