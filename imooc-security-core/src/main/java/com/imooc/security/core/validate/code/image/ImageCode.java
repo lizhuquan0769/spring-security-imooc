@@ -1,9 +1,9 @@
-package com.imooc.security.core.validate.core.image;
+package com.imooc.security.core.validate.code.image;
 
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 
-import com.imooc.security.core.validate.core.ValidateCode;
+import com.imooc.security.core.validate.code.ValidateCode;
 
 public class ImageCode extends ValidateCode {
 	

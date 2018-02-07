@@ -5,7 +5,8 @@ import com.imooc.security.core.properties.contsant.AuthenticationResponseTypeEnu
 public class BrowserProperties {
 	
 	private String authenticationDispatchUri = "/authentication/dispatch";
-	private String authenticationProcessUri = "/authentication/form";
+	private String authenticationImageLoginUri = "/authentication/imageLogin";
+	private String authenticationSmsLoginUri = "/authentication/smsLogin";
 	private AuthenticationResponseTypeEnum authentionResponseType = AuthenticationResponseTypeEnum.JSON;
 	private String imageCodeUri = "/code/image";
 	private String imageLoginPage = "/imooc-signin-image.html";
@@ -71,11 +72,19 @@ public class BrowserProperties {
 		this.authenticationDispatchUri = authenticationDispatchUri;
 	}
 
-	public String getAuthenticationProcessUri() {
-		return authenticationProcessUri;
+	public String getAuthenticationImageLoginUri() {
+		return authenticationImageLoginUri;
 	}
 
-	public void setAuthenticationProcessUri(String authenticationProcessUri) {
-		this.authenticationProcessUri = authenticationProcessUri;
+	public void setAuthenticationImageLoginUri(String authenticationImageLoginUri) {
+		this.authenticationImageLoginUri = authenticationImageLoginUri;
+	}
+
+	public String getAuthenticationSmsLoginUri() {
+		return authenticationSmsLoginUri;
+	}
+
+	public void setAuthenticationSmsLoginUri(String authenticationSmsLoginUri) {
+		this.authenticationSmsLoginUri = authenticationSmsLoginUri;
 	}
 }

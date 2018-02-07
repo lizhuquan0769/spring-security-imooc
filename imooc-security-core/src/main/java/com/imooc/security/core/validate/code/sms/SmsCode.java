@@ -1,8 +1,8 @@
-package com.imooc.security.core.validate.core.sms;
+package com.imooc.security.core.validate.code.sms;
 
 import java.time.LocalDateTime;
 
-import com.imooc.security.core.validate.core.ValidateCode;
+import com.imooc.security.core.validate.code.ValidateCode;
 
 public class SmsCode extends ValidateCode {
 

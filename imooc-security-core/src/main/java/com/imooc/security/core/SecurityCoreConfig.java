@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.imooc.security.core.properties.SecurityProperties;
-import com.imooc.security.core.validate.core.image.ImageCodeGenerator;
-import com.imooc.security.core.validate.core.sms.DefaultSmsCodeSender;
-import com.imooc.security.core.validate.core.sms.SmsCodeGenerator;
-import com.imooc.security.core.validate.core.sms.SmsCodeSender;
+import com.imooc.security.core.validate.code.image.ImageCodeGenerator;
+import com.imooc.security.core.validate.code.sms.DefaultSmsCodeSender;
+import com.imooc.security.core.validate.code.sms.SmsCodeGenerator;
+import com.imooc.security.core.validate.code.sms.DefaultSmsCodeSender;
 
 
 @Configuration
@@ -55,8 +55,8 @@ public class SecurityCoreConfig {
 	}
 	
 	@Bean
-	@ConditionalOnMissingBean(value = SmsCodeSender.class)
-	public SmsCodeSender smsCodeSender() {
+	@ConditionalOnMissingBean(value = DefaultSmsCodeSender.class)
+	public DefaultSmsCodeSender smsCodeSender() {
 		DefaultSmsCodeSender smsCodeSender = new DefaultSmsCodeSender();
 		return smsCodeSender;
 	}

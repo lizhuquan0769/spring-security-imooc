@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.imooc.security.core.properties.SecurityProperties;
-import com.imooc.security.core.validate.core.ValidateCodeFilter;
+import com.imooc.security.core.validate.code.ValidateCodeFilter;
 
 @Configuration
 @AutoConfigureAfter(value = BrowserAuthenticationHandlerConfig.class)
@@ -64,7 +64,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 			.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
 			.formLogin() //表单登陆
 				.loginPage(securityProperties.getBrowser().getAuthenticationDispatchUri()) //表单登陆URL
-				.loginProcessingUrl(securityProperties.getBrowser().getAuthenticationProcessUri()) //处理登陆请求的URL
+				.loginProcessingUrl(securityProperties.getBrowser().getAuthenticationImageLoginUri()) //处理登陆请求的URL
 				.successHandler(authenticationSuccessHandler) // 登陆成功处理器
 				.failureHandler(authenticationFailureHandler) // 登陆失败处理器
 		.and()
@@ -76,8 +76,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 			.authorizeRequests() //对请求授权
 			.antMatchers(
-					securityProperties.getBrowser().getAuthenticationDispatchUri(),
-					securityProperties.getBrowser().getAuthenticationProcessUri(),
+					securityProperties.getBrowser().getAuthenticationDispatchUri(), 
+					securityProperties.getBrowser().getAuthenticationImageLoginUri(), 
+					securityProperties.getBrowser().getAuthenticationSmsLoginUri(), 
 					securityProperties.getBrowser().getImageLoginPage(), 
 					securityProperties.getBrowser().getImageCodeUri(),
 					securityProperties.getBrowser().getSmsLoginPage(), 

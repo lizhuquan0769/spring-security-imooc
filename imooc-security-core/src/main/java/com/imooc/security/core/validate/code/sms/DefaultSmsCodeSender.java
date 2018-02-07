@@ -1,4 +1,4 @@
-package com.imooc.security.core.validate.core.sms;
+package com.imooc.security.core.validate.code.sms;
 
 public class DefaultSmsCodeSender implements SmsCodeSender {
 	@Override

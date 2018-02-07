@@ -1,8 +1,8 @@
-package com.imooc.security.core.validate.core;
+package com.imooc.security.core.validate.code;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -12,23 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.ServletRequestBindingException;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.properties.contsant.ValidateCodeTypeEnum;
 
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	
-	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-	
-	private Set<String> urls = new HashSet<>();
+	private Map<String, ValidateCodeTypeEnum> urlMap = new HashMap<>();
 	
 	private SecurityProperties securityProperties;
 	
@@ -37,8 +33,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	@Override
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
+		
 		String[] configUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getImage().getUrl(), ",");
-		urls.add(securityProperties.getBrowser().getAuthenticationProcessUri());
+		urls.add(securityProperties.getBrowser().getAuthenticationImageLoginUri());
 		for (String configUrl : configUrls) {
 			urls.add(configUrl);
 		}
@@ -69,32 +66,32 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	}
 
 	private void validate(boolean action, ServletWebRequest request) throws ServletRequestBindingException {
-		ValidateCode codeInSession = (ValidateCode) sessionStrategy.getAttribute(request, ValidateCodeController.SESSION_KEY);
-		
-		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
-		
-		// 验证码不能为空
-		if (StringUtils.isBlank(codeInRequest)) {
-			throw new ValidateCodeException("验证码的值不能为空");
-		}
-		
-		// 验证码不存在
-		if (codeInRequest == null) {
-			throw new ValidateCodeException("验证码不存在");
-		}
-		
-		// 验证码已过期
-		if (codeInSession.isExpired()) {
-			sessionStrategy.removeAttribute(request, ValidateCodeController.SESSION_KEY);
-			throw new ValidateCodeException("验证码已过期");
-		}
-		
-		// 验证码不匹配
-		if (!StringUtils.equalsIgnoreCase(codeInSession.getCode(), codeInRequest)) {
-			throw new ValidateCodeException("验证码不匹配");
-		}
-		
-		sessionStrategy.removeAttribute(request, ValidateCodeController.SESSION_KEY);
+//		ValidateCode codeInSession = (ValidateCode) sessionStrategy.getAttribute(request, ValidateCodeController.SESSION_KEY);
+//		
+//		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
+//		
+//		// 验证码不能为空
+//		if (StringUtils.isBlank(codeInRequest)) {
+//			throw new ValidateCodeException("验证码的值不能为空");
+//		}
+//		
+//		// 验证码不存在
+//		if (codeInRequest == null) {
+//			throw new ValidateCodeException("验证码不存在");
+//		}
+//		
+//		// 验证码已过期
+//		if (codeInSession.isExpired()) {
+//			sessionStrategy.removeAttribute(request, ValidateCodeController.SESSION_KEY);
+//			throw new ValidateCodeException("验证码已过期");
+//		}
+//		
+//		// 验证码不匹配
+//		if (!StringUtils.equalsIgnoreCase(codeInSession.getCode(), codeInRequest)) {
+//			throw new ValidateCodeException("验证码不匹配");
+//		}
+//		
+//		sessionStrategy.removeAttribute(request, ValidateCodeController.SESSION_KEY);
 	}
 
 	public void setAuthenticationFailureHandler(AuthenticationFailureHandler authenticationFailureHandler) {

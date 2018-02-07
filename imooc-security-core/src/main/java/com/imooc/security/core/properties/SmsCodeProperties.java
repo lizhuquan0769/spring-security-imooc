@@ -1,9 +1,9 @@
 package com.imooc.security.core.properties;
 
 public class SmsCodeProperties {
-	private int length = 4;
-	
+	private int length = 6;
 	private int expireIn = 300;
+	private String url;
 
 	public int getLength() {
 		return length;
@@ -19,5 +19,13 @@ public class SmsCodeProperties {
 
 	public void setExpireIn(int expireIn) {
 		this.expireIn = expireIn;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }
