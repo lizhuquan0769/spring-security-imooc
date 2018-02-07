@@ -96,7 +96,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authenticated() //需要身份认证
 		.and()
 			.csrf()
-				.disable()
+				.disable() 
 		.apply(smsCodeAuthenticationSecurityConfig);
 	}
 }
