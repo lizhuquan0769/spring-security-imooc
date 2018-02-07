@@ -36,14 +36,14 @@ public class FileController {
 	}
 	
 	@GetMapping("/{id}")
-	public void download(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
+	public void download(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try (InputStream inputStream = new FileInputStream(new File(folder, id + ".txt"));
 				OutputStream outputStream = response.getOutputStream();) {
 			response.setContentType("application/x-download");
 			response.addHeader("Content-Disposition", "attachment;filename=test.txt");
 			IOUtils.copy(inputStream, outputStream);
 		} catch (Exception e) {
-			
+			throw e;
 		}
 	}
 }

@@ -39,6 +39,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
+	@Autowired
+	private ValidateCodeFilter validateCodeFilter;
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -54,10 +57,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
-		validateCodeFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
-		validateCodeFilter.setSecurityProperties(securityProperties);
-		validateCodeFilter.afterPropertiesSet();
 		
 		//block 1：表单身份验证
 		http

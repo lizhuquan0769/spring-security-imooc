@@ -3,6 +3,7 @@ package com.imooc.security.core.validate.code;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -13,8 +14,10 @@ import com.imooc.security.core.validate.code.sms.SmsCodeProcessor;
 @RestController
 public class ValidateCodeController {
 	
+	@Autowired
 	private ImageCodeProcessor imageCodeProcessor;
 	
+	@Autowired
 	private SmsCodeProcessor smsCodeProcessor;
 	
 	
