@@ -17,8 +17,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import com.imooc.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.imooc.security.core.properties.SecurityProperties;
-import com.imooc.security.core.validate.code.ValidateCodeFilter;
+import com.imooc.security.core.validate.code.ImageCodeFilter;
+import com.imooc.security.core.validate.code.SmsCodeFilter;
 
 @Configuration
 @AutoConfigureAfter(value = BrowserAuthenticationHandlerConfig.class)
@@ -40,7 +42,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
-	private ValidateCodeFilter validateCodeFilter;
+	private ImageCodeFilter validateCodeFilter;
+	
+	@Autowired
+	private SmsCodeFilter smsCodeFilter;
+	
+	@Autowired
+	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -60,10 +68,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		//block 1：表单身份验证
 		http
+			.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
 			.formLogin() //表单登陆
 				.loginPage(securityProperties.getBrowser().getAuthenticationDispatchUri()) //表单登陆URL
-				.loginProcessingUrl(securityProperties.getBrowser().getAuthenticationImageLoginUri()) //处理登陆请求的URL
+				.loginProcessingUrl("/authentication/form") //处理登陆请求的URL
 				.successHandler(authenticationSuccessHandler) // 登陆成功处理器
 				.failureHandler(authenticationFailureHandler) // 登陆失败处理器
 		.and()
@@ -76,18 +85,18 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests() //对请求授权
 			.antMatchers(
 					securityProperties.getBrowser().getAuthenticationDispatchUri(), 
-					securityProperties.getBrowser().getAuthenticationImageLoginUri(), 
-					securityProperties.getBrowser().getAuthenticationSmsLoginUri(), 
-					securityProperties.getBrowser().getImageLoginPage(), 
-					securityProperties.getBrowser().getImageCodeUri(),
-					securityProperties.getBrowser().getSmsLoginPage(), 
-					securityProperties.getBrowser().getSmsCodeUri()
+					"/authentication/form", 
+					"/authentication/mobile", 
+					"/demo-signin.html", 
+					"/code/image",
+					"/code/sms"
 					) //对matchers匹配的请求
 				.permitAll() //放行
 			.anyRequest() //对其它任何请求
 				.authenticated() //需要身份认证
 		.and()
 			.csrf()
-				.disable();
+				.disable()
+		.apply(smsCodeAuthenticationSecurityConfig);
 	}
 }

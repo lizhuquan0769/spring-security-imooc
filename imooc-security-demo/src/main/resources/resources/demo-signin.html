@@ -2,12 +2,42 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>demo sms 登录</title>
+<title>demo 登录</title>
 <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
-	<h3>表单登录</h3>
-	<form action="/authentication/smsLogin" method="post">
+
+	<h3>用户名登录</h3>
+	<form action="/authentication/form" method="post">
+		<table>
+			<tr>
+				<td>用户名:</td> 
+				<td><input type="text" name="username"></td>
+			</tr>
+			<tr>
+				<td>密码:</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td>图形验证码:</td>
+				<td>
+					<input type="text" name="imageCode">
+					<img alt="" src="/code/image">
+				</td>
+			</tr>
+			<tr colspan="2">
+				<input name="remember-me" type="checkbox" value="true"/>记住我
+			</tr>
+			<tr>
+				<td colspan="2"><button type="submit">登录</button></td>
+			</tr>
+		</table>
+	</form>
+	
+	<br/>
+	
+	<h3>手机登录</h3>
+	<form action="/authentication/mobile" method="post">
 		<table>
 			<tr>
 				<td>手机号:</td> 
@@ -34,8 +64,6 @@
 			} else {
 				alert("请先填写手机号");
 			}
-			
-			
 		}
 	</script>
 </body>

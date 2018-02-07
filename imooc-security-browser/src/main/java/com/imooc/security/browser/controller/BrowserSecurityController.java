@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.imooc.security.browser.support.SimpleResponse;
-import com.imooc.security.core.properties.SecurityProperties;
 
 @RestController
 public class BrowserSecurityController {
@@ -33,9 +31,6 @@ public class BrowserSecurityController {
 	
 	// 工具类，方便拼装重定向url
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-	
-	@Autowired
-	private SecurityProperties securityProperties;
 	
 	/**
 	 * 当没身份校验时的登陆调试跳转逻辑
@@ -54,7 +49,7 @@ public class BrowserSecurityController {
 			logger.info("引发跳转的请求是：" + targetUrl);
 			if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")) {
 				// 如果是页面请求, 重定向回去
-				redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getImageLoginPage());
+				redirectStrategy.sendRedirect(request, response, "/demo-signin.html");
 				return null;
 			}
 		}

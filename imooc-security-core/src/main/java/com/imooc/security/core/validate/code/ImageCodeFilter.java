@@ -25,7 +25,7 @@ import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.properties.contsant.ValidateCodeTypeEnum;
 
 @Component
-public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
+public class ImageCodeFilter extends OncePerRequestFilter implements InitializingBean {
 	
 	@Autowired
 	private AuthenticationFailureHandler authenticationFailureHandler;
@@ -44,16 +44,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
 		
-		urlMap.put(securityProperties.getBrowser().getAuthenticationImageLoginUri(), ValidateCodeTypeEnum.IMAGE);
+		urlMap.put("/authentication/form", ValidateCodeTypeEnum.IMAGE);
 		String[] imageCodeUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getImage().getUrl(), ",");
 		for (String imageCodeUrl : imageCodeUrls) {
 			urlMap.put(imageCodeUrl, ValidateCodeTypeEnum.IMAGE);
-		}
-		
-		urlMap.put(securityProperties.getBrowser().getAuthenticationSmsLoginUri(), ValidateCodeTypeEnum.SMS);
-		String[] smsCodeUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getSms().getUrl(), ",");
-		for (String smsCodeUrl : smsCodeUrls) {
-			urlMap.put(smsCodeUrl, ValidateCodeTypeEnum.SMS);
 		}
 	}
 	
