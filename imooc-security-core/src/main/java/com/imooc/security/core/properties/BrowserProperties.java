@@ -6,7 +6,11 @@ import com.imooc.security.core.properties.contsant.SecurityConstants;
 public class BrowserProperties {
 	
 	private String unAuthenticationUrl = SecurityConstants.DEFAULT_UNAUTHENTICATION_URL;
-	private String loginPage = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
+	private String loginPageUrl = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
+	private String validateCodeUrlImage = SecurityConstants.DEFAULT_VALIDATE_CODE_URL_IMAGE;
+	private String validateCodeUrlSms = SecurityConstants.DEFAULT_VALIDATE_CODE_URL_SMS;
+	private String loginProcessUrlForm = SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_FORM;
+	private String loginProcessUrlMobile = SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_MOBILE;
 	private AuthenticationResponseTypeEnum authentionResponseType = AuthenticationResponseTypeEnum.JSON;
 	private int rememberMeSeconds = 604800;
 
@@ -34,11 +38,43 @@ public class BrowserProperties {
 		this.unAuthenticationUrl = unAuthenticationUrl;
 	}
 
-	public String getLoginPage() {
-		return loginPage;
+	public String getLoginPageUrl() {
+		return loginPageUrl;
 	}
 
-	public void setLoginPage(String loginPage) {
-		this.loginPage = loginPage;
+	public void setLoginPageUrl(String loginPageUrl) {
+		this.loginPageUrl = loginPageUrl;
+	}
+
+	public String getLoginProcessUrlForm() {
+		return loginProcessUrlForm;
+	}
+
+	public void setLoginProcessUrlForm(String loginProcessUrlForm) {
+		this.loginProcessUrlForm = loginProcessUrlForm;
+	}
+
+	public String getLoginProcessUrlMobile() {
+		return loginProcessUrlMobile;
+	}
+
+	public void setLoginProcessUrlMobile(String loginProcessUrlMobile) {
+		this.loginProcessUrlMobile = loginProcessUrlMobile;
+	}
+
+	public String getValidateCodeUrlImage() {
+		return validateCodeUrlImage;
+	}
+
+	public void setValidateCodeUrlImage(String validateCodeUrlImage) {
+		this.validateCodeUrlImage = validateCodeUrlImage;
+	}
+
+	public String getValidateCodeUrlSms() {
+		return validateCodeUrlSms;
+	}
+
+	public void setValidateCodeUrlSms(String validateCodeUrlSms) {
+		this.validateCodeUrlSms = validateCodeUrlSms;
 	}
 }

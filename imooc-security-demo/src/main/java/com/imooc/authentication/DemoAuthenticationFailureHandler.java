@@ -49,9 +49,9 @@ public class DemoAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 			response.setContentType("application/json;charset=UTF-8");
 			response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
 		} else if (AuthenticationResponseTypeEnum.DIRECT.equals(securityProperties.getBrowser().getAuthentionResponseType())) {
+			logger.error(exception.getMessage());
 			super.onAuthenticationFailure(request, response, exception);
 		}
 		
 	}
-
 }

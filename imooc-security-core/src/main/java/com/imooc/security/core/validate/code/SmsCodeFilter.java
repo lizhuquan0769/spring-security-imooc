@@ -21,7 +21,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.imooc.security.core.properties.ImoocSecurityProperties;
-import com.imooc.security.core.properties.contsant.SecurityConstants;
 import com.imooc.security.core.properties.contsant.ValidateCodeTypeEnum;
 
 public class SmsCodeFilter extends OncePerRequestFilter implements InitializingBean {
@@ -40,7 +39,7 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
 		
-		urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_MOBILE, ValidateCodeTypeEnum.SMS);
+		urlMap.put(securityProperties.getBrowser().getLoginProcessUrlMobile(), ValidateCodeTypeEnum.SMS);
 		String[] smsCodeUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getSms().getUrl(), ",");
 		for (String smsCodeUrl : smsCodeUrls) {
 			urlMap.put(smsCodeUrl, ValidateCodeTypeEnum.SMS);

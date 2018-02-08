@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 
 import com.imooc.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.imooc.security.core.properties.ImoocSecurityProperties;
-import com.imooc.security.core.properties.contsant.SecurityConstants;
 import com.imooc.security.core.validate.code.ImageCodeFilter;
 import com.imooc.security.core.validate.code.SmsCodeFilter;
 
@@ -77,7 +76,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 			.addFilterBefore(imageCodeFilter, UsernamePasswordAuthenticationFilter.class)
 			.formLogin() //表单登陆
 				.loginPage(securityProperties.getBrowser().getUnAuthenticationUrl()) //表单登陆URL
-				.loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_FORM) //处理登陆请求的URL
+				.loginProcessingUrl(securityProperties.getBrowser().getLoginProcessUrlForm()) //处理登陆请求的URL
 				.successHandler(authenticationSuccessHandler) // 登陆成功处理器
 				.failureHandler(authenticationFailureHandler) // 登陆失败处理器
 		.and()
@@ -90,11 +89,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests() //对请求授权
 			.antMatchers(
 					securityProperties.getBrowser().getUnAuthenticationUrl(), 
-					SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_FORM, 
-					SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_MOBILE, 
-					securityProperties.getBrowser().getLoginPage(), 
-					SecurityConstants.DEFAULT_VALIDATE_CODE_IMAGE_URL,
-					SecurityConstants.DEFAULT_VALIDATE_CODE_SMS_URL
+					securityProperties.getBrowser().getLoginProcessUrlForm(), 
+					securityProperties.getBrowser().getLoginProcessUrlMobile(), 
+					securityProperties.getBrowser().getLoginPageUrl(), 
+					securityProperties.getBrowser().getValidateCodeUrlImage(),
+					securityProperties.getBrowser().getValidateCodeUrlSms()
 					) //对matchers匹配的请求
 				.permitAll() //放行
 			.anyRequest() //对其它任何请求

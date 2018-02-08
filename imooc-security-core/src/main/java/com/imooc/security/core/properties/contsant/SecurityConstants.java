@@ -15,12 +15,12 @@ public class SecurityConstants {
 	/**
 	 * 默认获取图像验证码的url
 	 */
-	public static final String DEFAULT_VALIDATE_CODE_IMAGE_URL = "/code/image";
+	public static final String DEFAULT_VALIDATE_CODE_URL_IMAGE = "/code/image";
 	
 	/**
 	 * 默认获取短信验证码的url
 	 */
-	public static final String DEFAULT_VALIDATE_CODE_SMS_URL = "/code/sms";
+	public static final String DEFAULT_VALIDATE_CODE_URL_SMS = "/code/sms";
 	
 	/**
 	 * 默认的用户名密码登录请求处理url

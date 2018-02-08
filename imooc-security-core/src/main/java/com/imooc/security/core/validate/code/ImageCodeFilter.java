@@ -21,7 +21,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.imooc.security.core.properties.ImoocSecurityProperties;
-import com.imooc.security.core.properties.contsant.SecurityConstants;
 import com.imooc.security.core.properties.contsant.ValidateCodeTypeEnum;
 
 public class ImageCodeFilter extends OncePerRequestFilter implements InitializingBean {
@@ -40,7 +39,7 @@ public class ImageCodeFilter extends OncePerRequestFilter implements Initializin
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
 		
-		urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_FORM, ValidateCodeTypeEnum.IMAGE);
+		urlMap.put(securityProperties.getBrowser().getLoginProcessUrlForm(), ValidateCodeTypeEnum.IMAGE);
 		String[] imageCodeUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getImage().getUrl(), ",");
 		for (String imageCodeUrl : imageCodeUrls) {
 			urlMap.put(imageCodeUrl, ValidateCodeTypeEnum.IMAGE);

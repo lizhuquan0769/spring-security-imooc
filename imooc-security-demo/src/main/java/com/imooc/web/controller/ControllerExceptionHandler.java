@@ -22,4 +22,13 @@ public class ControllerExceptionHandler {
 		result.put("message", ex.getMessage());
 		return result;
 	}
+	
+	@ExceptionHandler(Exception.class)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public Map<String, Object> authenticationException(Exception ex) {
+		Map<String, Object> result = new HashMap<>();
+		result.put("message", ex.getMessage());
+		return result;
+	}
 }

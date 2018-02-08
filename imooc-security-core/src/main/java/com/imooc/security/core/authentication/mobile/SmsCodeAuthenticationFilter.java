@@ -15,7 +15,6 @@ import com.imooc.security.core.properties.contsant.SecurityConstants;
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	// ~ Static fields/initializers
 		// =====================================================================================
-
 		public static final String IMOOC_FORM_MOBILE_KEY = SecurityConstants.DEFAULT_REQUEST_PARAMETER_MOBILE;
 
 		private String mobileParameter = IMOOC_FORM_MOBILE_KEY;
@@ -24,8 +23,8 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 		// ~ Constructors
 		// ===================================================================================================
 
-		public SmsCodeAuthenticationFilter() {
-			super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_MOBILE, "POST"));
+		public SmsCodeAuthenticationFilter(String loginProcessUrlMobile) {
+			super(new AntPathRequestMatcher(loginProcessUrlMobile, "POST"));
 		}
 
 		// ~ Methods
