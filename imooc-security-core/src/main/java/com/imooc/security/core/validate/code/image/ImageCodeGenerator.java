@@ -12,12 +12,12 @@ import java.util.Random;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.properties.ImoocSecurityProperties;
 import com.imooc.security.core.validate.code.ValidateCodeGenerator;
 
 public class ImageCodeGenerator implements ValidateCodeGenerator {
 
-	private SecurityProperties securityProperties;
+	private ImoocSecurityProperties securityProperties;
 	
 	@Override
 	public ImageCode generate(ServletWebRequest request) {
@@ -77,7 +77,7 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
 		return new Color(r, g, b);
 	}
 
-	public void setSecurityProperties(SecurityProperties securityProperties) {
+	public void setSecurityProperties(ImoocSecurityProperties securityProperties) {
 		this.securityProperties = securityProperties;
 	}
 	

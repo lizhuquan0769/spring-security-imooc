@@ -4,13 +4,13 @@ public enum ValidateCodeTypeEnum {
 	IMAGE {
 		@Override
 		public String getParameterNameOnValidate() {
-			return Constants.DEFAULT_PARAMEGERNAME_IMAGECODE;
+			return SecurityConstants.DEFAULT_REQUEST_PARAMETER_IMAGECODE;
 		}
 	},
 	SMS {
 		@Override
 		public String getParameterNameOnValidate() {
-			return Constants.DEFAULT_PARAMEGERNAME_SMSCODE;
+			return SecurityConstants.DEFAULT_REQUEST_PARAMETER_SMSCODE;
 		}
 	};
 

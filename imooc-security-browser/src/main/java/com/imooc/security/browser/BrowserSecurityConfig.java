@@ -18,7 +18,8 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.imooc.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
-import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.properties.ImoocSecurityProperties;
+import com.imooc.security.core.properties.contsant.SecurityConstants;
 import com.imooc.security.core.validate.code.ImageCodeFilter;
 import com.imooc.security.core.validate.code.SmsCodeFilter;
 
@@ -27,7 +28,7 @@ import com.imooc.security.core.validate.code.SmsCodeFilter;
 public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	private SecurityProperties securityProperties;
+	private ImoocSecurityProperties securityProperties;
 	
 	@Autowired
 	private AuthenticationSuccessHandler authenticationSuccessHandler;
@@ -40,12 +41,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
-	@Autowired
-	private ImageCodeFilter validateCodeFilter;
-	
-	@Autowired
-	private SmsCodeFilter smsCodeFilter;
 	
 	@Autowired
 	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
@@ -66,13 +61,23 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
+		ImageCodeFilter imageCodeFilter = new ImageCodeFilter();
+		imageCodeFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+		imageCodeFilter.setSecurityProperties(securityProperties);
+		imageCodeFilter.afterPropertiesSet();
+		
+		SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+		smsCodeFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+		smsCodeFilter.setSecurityProperties(securityProperties);
+		smsCodeFilter.afterPropertiesSet();
+		
 		//block 1：表单身份验证
 		http
 			.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(imageCodeFilter, UsernamePasswordAuthenticationFilter.class)
 			.formLogin() //表单登陆
-				.loginPage(securityProperties.getBrowser().getAuthenticationDispatchUri()) //表单登陆URL
-				.loginProcessingUrl("/authentication/form") //处理登陆请求的URL
+				.loginPage(securityProperties.getBrowser().getUnAuthenticationUrl()) //表单登陆URL
+				.loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_FORM) //处理登陆请求的URL
 				.successHandler(authenticationSuccessHandler) // 登陆成功处理器
 				.failureHandler(authenticationFailureHandler) // 登陆失败处理器
 		.and()
@@ -84,12 +89,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 			.authorizeRequests() //对请求授权
 			.antMatchers(
-					securityProperties.getBrowser().getAuthenticationDispatchUri(), 
-					"/authentication/form", 
-					"/authentication/mobile", 
-					"/demo-signin.html", 
-					"/code/image",
-					"/code/sms"
+					securityProperties.getBrowser().getUnAuthenticationUrl(), 
+					SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_FORM, 
+					SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_MOBILE, 
+					securityProperties.getBrowser().getLoginPage(), 
+					SecurityConstants.DEFAULT_VALIDATE_CODE_IMAGE_URL,
+					SecurityConstants.DEFAULT_VALIDATE_CODE_SMS_URL
 					) //对matchers匹配的请求
 				.permitAll() //放行
 			.anyRequest() //对其它任何请求

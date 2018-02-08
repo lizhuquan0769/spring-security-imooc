@@ -14,7 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.properties.ImoocSecurityProperties;
 import com.imooc.security.core.properties.contsant.AuthenticationResponseTypeEnum;
 
 public class ImoocAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -28,7 +28,7 @@ public class ImoocAuthenticationFailureHandler extends SimpleUrlAuthenticationFa
 	private ObjectMapper objectMapper;
 	
 	@Autowired
-	private SecurityProperties securityProperties;
+	private ImoocSecurityProperties securityProperties;
 	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,

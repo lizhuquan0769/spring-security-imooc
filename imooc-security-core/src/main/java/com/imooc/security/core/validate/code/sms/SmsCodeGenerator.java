@@ -3,12 +3,12 @@ package com.imooc.security.core.validate.code.sms;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.properties.ImoocSecurityProperties;
 import com.imooc.security.core.validate.code.ValidateCodeGenerator;
 
 public class SmsCodeGenerator implements ValidateCodeGenerator {
 
-	private SecurityProperties securityProperties;
+	private ImoocSecurityProperties securityProperties;
 	
 	@Override
 	public SmsCode generate(ServletWebRequest request) {
@@ -16,7 +16,7 @@ public class SmsCodeGenerator implements ValidateCodeGenerator {
 		return new SmsCode(code, securityProperties.getCode().getSms().getExpireIn());
 	}
 
-	public void setSecurityProperties(SecurityProperties securityProperties) {
+	public void setSecurityProperties(ImoocSecurityProperties securityProperties) {
 		this.securityProperties = securityProperties;
 	}
 }

@@ -1,13 +1,12 @@
 package com.imooc.security.core.validate.code;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.context.request.ServletWebRequest;
 
 public abstract class AbstractValidateCodeProcessor<C extends ValidateCode,G extends ValidateCodeGenerator> implements ValidateCodeProcessor {
 	
-	@Autowired
-	private SessionStrategy sessionStrategy;
+	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 	
 	@Override
 	public void process(ServletWebRequest request) throws Exception {

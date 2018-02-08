@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.properties.ImoocSecurityProperties;
 import com.imooc.security.core.properties.contsant.AuthenticationResponseTypeEnum;
 
 /**
@@ -34,7 +34,7 @@ public class DemoAuthencationSuccessHandler extends SavedRequestAwareAuthenticat
 	private ObjectMapper objectMapper;
 	
 	@Autowired
-	private SecurityProperties securityProperties;
+	private ImoocSecurityProperties securityProperties;
 	
 	/**
 	 * Authentication是spring security的核心接口，封装了认证信息

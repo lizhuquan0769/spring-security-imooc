@@ -12,29 +12,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
-import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.properties.ImoocSecurityProperties;
+import com.imooc.security.core.properties.contsant.SecurityConstants;
 import com.imooc.security.core.properties.contsant.ValidateCodeTypeEnum;
 
-@Component
 public class ImageCodeFilter extends OncePerRequestFilter implements InitializingBean {
 	
-	@Autowired
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	
-	@Autowired
-	private SecurityProperties securityProperties;
+	private ImoocSecurityProperties securityProperties;
 	
-	@Autowired
-	private SessionStrategy sessionStrategy;
+	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 	
 	private Map<String, ValidateCodeTypeEnum> urlMap = new HashMap<>();
 	
@@ -44,7 +40,7 @@ public class ImageCodeFilter extends OncePerRequestFilter implements Initializin
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
 		
-		urlMap.put("/authentication/form", ValidateCodeTypeEnum.IMAGE);
+		urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_FORM, ValidateCodeTypeEnum.IMAGE);
 		String[] imageCodeUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getImage().getUrl(), ",");
 		for (String imageCodeUrl : imageCodeUrls) {
 			urlMap.put(imageCodeUrl, ValidateCodeTypeEnum.IMAGE);
@@ -109,5 +105,21 @@ public class ImageCodeFilter extends OncePerRequestFilter implements Initializin
 		}
 		
 		sessionStrategy.removeAttribute(request, sessionKey);
+	}
+
+	public AuthenticationFailureHandler getAuthenticationFailureHandler() {
+		return authenticationFailureHandler;
+	}
+
+	public void setAuthenticationFailureHandler(AuthenticationFailureHandler authenticationFailureHandler) {
+		this.authenticationFailureHandler = authenticationFailureHandler;
+	}
+
+	public ImoocSecurityProperties getSecurityProperties() {
+		return securityProperties;
+	}
+
+	public void setSecurityProperties(ImoocSecurityProperties securityProperties) {
+		this.securityProperties = securityProperties;
 	}
 }

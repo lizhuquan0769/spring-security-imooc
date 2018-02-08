@@ -24,7 +24,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 		SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(user, user.getAuthorities());
 		
 		authenticationResult.setDetails(authenticationToken.getDetails());
-		return authenticationToken;
+		return authenticationResult;
 	}
 
 	@Override

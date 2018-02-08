@@ -1,6 +1,7 @@
 package com.imooc.security.browser.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.imooc.security.browser.support.SimpleResponse;
+import com.imooc.security.core.properties.ImoocSecurityProperties;
 
 @RestController
 public class BrowserSecurityController {
@@ -39,7 +42,7 @@ public class BrowserSecurityController {
 	 * @return
 	 * @throws IOException 
 	 */
-	@RequestMapping("${imooc.security.browser.authentication-dispatch-uri}")
+	@RequestMapping("#{imoocSecurityProperties.browser.unAuthenticationUrl}")
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		SavedRequest savedRequest = requestCache.getRequest(request, response);

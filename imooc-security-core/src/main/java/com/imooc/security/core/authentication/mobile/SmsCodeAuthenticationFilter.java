@@ -10,11 +10,13 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
 
+import com.imooc.security.core.properties.contsant.SecurityConstants;
+
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	// ~ Static fields/initializers
 		// =====================================================================================
 
-		public static final String IMOOC_FORM_MOBILE_KEY = "mobile";
+		public static final String IMOOC_FORM_MOBILE_KEY = SecurityConstants.DEFAULT_REQUEST_PARAMETER_MOBILE;
 
 		private String mobileParameter = IMOOC_FORM_MOBILE_KEY;
 		private boolean postOnly = true;
@@ -23,7 +25,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 		// ===================================================================================================
 
 		public SmsCodeAuthenticationFilter() {
-			super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
+			super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_MOBILE, "POST"));
 		}
 
 		// ~ Methods

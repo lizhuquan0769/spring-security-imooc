@@ -17,7 +17,7 @@ public class ValidateCodeHttpUtils {
 			sessionKey = buildSessionKey(ValidateCodeTypeEnum.IMAGE);
 			break;
 		case SMS:
-			sessionKey =  buildSessionKey(ValidateCodeTypeEnum.SMS);
+			sessionKey = buildSessionKey(ValidateCodeTypeEnum.SMS);
 			break;
 		default:
 			sessionKey = buildSessionKey(ValidateCodeTypeEnum.IMAGE);
@@ -44,6 +44,6 @@ public class ValidateCodeHttpUtils {
 	}
 	
 	private static String buildSessionKey(ValidateCodeTypeEnum validateCodeType) {
-		return VALIDATECODE_SESSIONKEY_PREFIX + validateCodeType.toString().toUpperCase();
+		return VALIDATECODE_SESSIONKEY_PREFIX + validateCodeType;
 	}
 }
