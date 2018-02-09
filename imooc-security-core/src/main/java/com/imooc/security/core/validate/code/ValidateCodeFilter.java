@@ -1,7 +1,7 @@
 package com.imooc.security.core.validate.code;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -23,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.properties.contsant.ValidateCodeTypeEnum;
 
-public class SmsCodeFilter extends OncePerRequestFilter implements InitializingBean {
+public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 	
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	
@@ -31,7 +31,7 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 	
 	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 	
-	private Map<String, ValidateCodeTypeEnum> urlMap = new HashMap<>();
+	private Map<String, ValidateCodeTypeEnum> urlMap = new LinkedHashMap<>();
 	
 	private AntPathMatcher antPathMatcher = new AntPathMatcher();
 	
@@ -39,15 +39,23 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
 		
+		urlMap.put(securityProperties.getBrowser().getLoginProcessUrlForm(), ValidateCodeTypeEnum.IMAGE);
 		urlMap.put(securityProperties.getBrowser().getLoginProcessUrlMobile(), ValidateCodeTypeEnum.SMS);
-		String[] smsCodeUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getSms().getUrl(), ",");
-		for (String smsCodeUrl : smsCodeUrls) {
-			urlMap.put(smsCodeUrl, ValidateCodeTypeEnum.SMS);
-		}
+		
+		addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeTypeEnum.IMAGE);
+		addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeTypeEnum.SMS);
 	}
 	
+	private void addUrlToMap(String validateCodeUrl, ValidateCodeTypeEnum validateCodeType) {
+		String[] validateCodeUrls = StringUtils.splitByWholeSeparator(validateCodeUrl, ",");
+		for (String url : validateCodeUrls) {
+			urlMap.put(url, validateCodeType);
+		}
+	}
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+		System.out.println("ValidateCodeFilter: " + request.getRequestURL());
 		
 		ValidateCodeTypeEnum validateCodeType = null;
 		for (Entry<String, ValidateCodeTypeEnum> entry : urlMap.entrySet()) {
@@ -84,12 +92,12 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 		
 		// 验证码不能为空
 		if (StringUtils.isBlank(codeInRequest)) {
-			throw new ValidateCodeException("验证码的值不能为空");
+			throw new ValidateCodeException("请填写验证码");
 		}
 		
 		// 验证码不存在
 		if (codeInRequest == null) {
-			throw new ValidateCodeException("验证码不存在");
+			throw new ValidateCodeException("请先获取验证码");
 		}
 		
 		// 验证码已过期

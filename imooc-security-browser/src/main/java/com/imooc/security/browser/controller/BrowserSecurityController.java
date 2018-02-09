@@ -41,7 +41,7 @@ public class BrowserSecurityController {
 	 * @return
 	 * @throws IOException 
 	 */
-	@RequestMapping("#{imoocSecurityProperties.browser.unAuthenticationUrl}")
+	@RequestMapping("#{globalSecurityProperties.browser.unAuthenticationUrl}")
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authenction) throws IOException {
 		SavedRequest savedRequest = requestCache.getRequest(request, response);

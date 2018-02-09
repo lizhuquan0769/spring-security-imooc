@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @ConfigurationProperties(prefix = "imooc.security")
-@Component
+@Component(value = "globalSecurityProperties")
 public class SecurityProperties {
 	
 	private BrowserProperties browser = new BrowserProperties();
