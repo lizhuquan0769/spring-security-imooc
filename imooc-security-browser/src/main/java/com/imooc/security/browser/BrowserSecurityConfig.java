@@ -81,6 +81,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 			.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
 			.userDetailsService(userDetailsService)
 		.and()
+			// url访问授权配置
 			.authorizeRequests() //对请求授权
 			.antMatchers(
 					securityProperties.getBrowser().getUnAuthenticationUrl(), 
@@ -93,6 +94,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 			.anyRequest() //对其它任何请求
 				.authenticated() //需要身份认证
 		.and()
+			// csrf配置
 			.csrf()
 				.disable();
 		
