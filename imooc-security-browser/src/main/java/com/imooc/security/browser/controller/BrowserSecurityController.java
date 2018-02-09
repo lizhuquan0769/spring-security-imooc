@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.imooc.security.browser.support.SimpleResponse;
-import com.imooc.security.core.properties.ImoocSecurityProperties;
+import com.imooc.security.core.properties.SecurityProperties;
 
 @RestController
 public class BrowserSecurityController {
@@ -32,7 +32,7 @@ public class BrowserSecurityController {
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Autowired
-	private ImoocSecurityProperties securityProperties;
+	private SecurityProperties securityProperties;
 	
 	/**
 	 * 当没身份校验时的登陆调试跳转逻辑

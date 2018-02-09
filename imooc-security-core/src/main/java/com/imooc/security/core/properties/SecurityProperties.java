@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @ConfigurationProperties(prefix = "imooc.security")
 @Component
-public class ImoocSecurityProperties {
+public class SecurityProperties {
 	
 	private BrowserProperties browser = new BrowserProperties();
 	

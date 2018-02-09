@@ -20,14 +20,14 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.imooc.security.core.properties.ImoocSecurityProperties;
+import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.properties.contsant.ValidateCodeTypeEnum;
 
 public class SmsCodeFilter extends OncePerRequestFilter implements InitializingBean {
 	
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	
-	private ImoocSecurityProperties securityProperties;
+	private SecurityProperties securityProperties;
 	
 	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 	
@@ -114,11 +114,11 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 		this.authenticationFailureHandler = authenticationFailureHandler;
 	}
 
-	public ImoocSecurityProperties getSecurityProperties() {
+	public SecurityProperties getSecurityProperties() {
 		return securityProperties;
 	}
 
-	public void setSecurityProperties(ImoocSecurityProperties securityProperties) {
+	public void setSecurityProperties(SecurityProperties securityProperties) {
 		this.securityProperties = securityProperties;
 	}
 }

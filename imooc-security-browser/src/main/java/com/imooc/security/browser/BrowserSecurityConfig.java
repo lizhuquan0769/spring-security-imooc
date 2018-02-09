@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.imooc.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
-import com.imooc.security.core.properties.ImoocSecurityProperties;
+import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.validate.code.ImageCodeFilter;
 import com.imooc.security.core.validate.code.SmsCodeFilter;
 
@@ -27,7 +27,7 @@ import com.imooc.security.core.validate.code.SmsCodeFilter;
 public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	private ImoocSecurityProperties securityProperties;
+	private SecurityProperties securityProperties;
 	
 	@Autowired
 	private AuthenticationSuccessHandler authenticationSuccessHandler;

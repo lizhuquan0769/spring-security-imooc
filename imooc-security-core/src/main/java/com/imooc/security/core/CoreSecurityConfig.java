@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.imooc.security.core.properties.ImoocSecurityProperties;
+import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.validate.code.image.ImageCodeGenerator;
 import com.imooc.security.core.validate.code.sms.DefaultSmsCodeSender;
 import com.imooc.security.core.validate.code.sms.SmsCodeGenerator;
@@ -15,7 +15,7 @@ import com.imooc.security.core.validate.code.sms.SmsCodeGenerator;
 public class CoreSecurityConfig {
 	
 	@Autowired
-	private ImoocSecurityProperties securityProperties;
+	private SecurityProperties securityProperties;
 	
 	@Bean
 	@ConditionalOnMissingBean(value = ImageCodeGenerator.class)
