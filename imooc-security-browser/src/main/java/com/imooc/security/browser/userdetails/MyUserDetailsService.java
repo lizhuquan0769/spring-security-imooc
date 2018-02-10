@@ -12,10 +12,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.security.SocialUser;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MyUserDetailsService implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService, SocialUserDetailsService {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -24,13 +27,18 @@ public class MyUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("admin");
 		String password = "123456";
-		// 根据用户名查找用户信息。
-//		return new User(username, passwordEncoder.encode(password), authorities);
 		// 根据查找到的用户信息判断用户是否被冻结
 		logger.info("登陆用户名：" + username + "登陆成功");
-		return new User(username, passwordEncoder.encode(password), true, true, true, true, authorities);
+		return new User(username, passwordEncoder.encode(password), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+	}
+
+	@Override
+	public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
+		String password = "123456";
+		// 根据查找到的用户信息判断用户是否被冻结
+		logger.info("登陆用户ID：" + userId + "登陆成功");
+		return new SocialUser(userId, passwordEncoder.encode(password), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
 	}
 
 }
