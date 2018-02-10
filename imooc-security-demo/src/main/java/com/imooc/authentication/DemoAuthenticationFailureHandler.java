@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.imooc.security.browser.support.SimpleResponse;
-import com.imooc.security.core.properties.ImoocSecurityProperties;
+import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.properties.contsant.AuthenticationResponseTypeEnum;
 
 /**
@@ -36,7 +36,7 @@ public class DemoAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
 	private ObjectMapper objectMapper;
 	
 	@Autowired
-	private ImoocSecurityProperties securityProperties;
+	private SecurityProperties securityProperties;
 	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,

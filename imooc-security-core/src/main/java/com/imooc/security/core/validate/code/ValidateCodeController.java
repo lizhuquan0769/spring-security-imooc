@@ -21,12 +21,12 @@ public class ValidateCodeController {
 	private SmsCodeProcessor smsCodeProcessor;
 	
 	
-	@GetMapping("#{imoocSecurityProperties.browser.validateCodeUrlImage}")
+	@GetMapping("#{globalSecurityProperties.browser.validateCodeUrlImage}")
 	public void createCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		imageCodeProcessor.process(new ServletWebRequest(request, response));
 	}
 	
-	@GetMapping(value = "#{imoocSecurityProperties.browser.validateCodeUrlSms}", params = {"mobile"})
+	@GetMapping(value = "#{globalSecurityProperties.browser.validateCodeUrlSms}", params = {"mobile"})
 	public void createSmsCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		smsCodeProcessor.process(new ServletWebRequest(request, response));
 	}

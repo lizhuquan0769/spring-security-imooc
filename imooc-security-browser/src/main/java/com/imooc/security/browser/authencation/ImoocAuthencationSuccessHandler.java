@@ -13,7 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.imooc.security.core.properties.ImoocSecurityProperties;
+import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.properties.contsant.AuthenticationResponseTypeEnum;
 
 public class ImoocAuthencationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
@@ -27,7 +27,7 @@ public class ImoocAuthencationSuccessHandler extends SavedRequestAwareAuthentica
 	private ObjectMapper objectMapper;
 	
 	@Autowired
-	private ImoocSecurityProperties securityProperties;
+	private SecurityProperties securityProperties;
 	
 	/**
 	 * Authentication是spring security的核心接口，封装了认证信息

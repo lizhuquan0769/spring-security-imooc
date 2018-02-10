@@ -5,22 +5,25 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.imooc.security.core.properties.ImoocSecurityProperties;
+import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.validate.code.image.DefaultImageCodeGenerator;
 import com.imooc.security.core.validate.code.image.ImageCodeGenerator;
 import com.imooc.security.core.validate.code.sms.DefaultSmsCodeSender;
 import com.imooc.security.core.validate.code.sms.SmsCodeGenerator;
+import com.imooc.security.core.validate.code.sms.DefaultSmsCodeGenerator;
+import com.imooc.security.core.validate.code.sms.SmsCodeSender;
 
 
 @Configuration
 public class CoreSecurityConfig {
 	
 	@Autowired
-	private ImoocSecurityProperties securityProperties;
+	private SecurityProperties securityProperties;
 	
 	@Bean
 	@ConditionalOnMissingBean(value = ImageCodeGenerator.class)
-	public ImageCodeGenerator imageCodeGenerator() {
-		ImageCodeGenerator imageCodeGenerator = new ImageCodeGenerator();
+	public ImageCodeGenerator	 imageCodeGenerator() {
+		DefaultImageCodeGenerator imageCodeGenerator = new DefaultImageCodeGenerator();
 		imageCodeGenerator.setSecurityProperties(securityProperties);
 		return imageCodeGenerator;
 	}
@@ -28,14 +31,14 @@ public class CoreSecurityConfig {
 	@Bean
 	@ConditionalOnMissingBean(value = SmsCodeGenerator.class)
 	public SmsCodeGenerator smsCodeGenerator() {
-		SmsCodeGenerator smsCodeGenerator = new SmsCodeGenerator();
+		DefaultSmsCodeGenerator smsCodeGenerator = new DefaultSmsCodeGenerator();
 		smsCodeGenerator.setSecurityProperties(securityProperties);
 		return smsCodeGenerator;
 	}
 	
 	@Bean
-	@ConditionalOnMissingBean(value = DefaultSmsCodeSender.class)
-	public DefaultSmsCodeSender smsCodeSender() {
+	@ConditionalOnMissingBean(value = SmsCodeSender.class)
+	public SmsCodeSender smsCodeSender() {
 		DefaultSmsCodeSender smsCodeSender = new DefaultSmsCodeSender();
 		return smsCodeSender;
 	}

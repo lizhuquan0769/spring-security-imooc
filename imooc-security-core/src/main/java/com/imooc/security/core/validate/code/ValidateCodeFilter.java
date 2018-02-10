@@ -1,7 +1,7 @@
 package com.imooc.security.core.validate.code;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -20,18 +20,18 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.imooc.security.core.properties.ImoocSecurityProperties;
+import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.properties.contsant.ValidateCodeTypeEnum;
 
-public class ImageCodeFilter extends OncePerRequestFilter implements InitializingBean {
+public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 	
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	
-	private ImoocSecurityProperties securityProperties;
+	private SecurityProperties securityProperties;
 	
 	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 	
-	private Map<String, ValidateCodeTypeEnum> urlMap = new HashMap<>();
+	private Map<String, ValidateCodeTypeEnum> urlMap = new LinkedHashMap<>();
 	
 	private AntPathMatcher antPathMatcher = new AntPathMatcher();
 	
@@ -40,14 +40,22 @@ public class ImageCodeFilter extends OncePerRequestFilter implements Initializin
 		super.afterPropertiesSet();
 		
 		urlMap.put(securityProperties.getBrowser().getLoginProcessUrlForm(), ValidateCodeTypeEnum.IMAGE);
-		String[] imageCodeUrls = StringUtils.splitByWholeSeparator(securityProperties.getCode().getImage().getUrl(), ",");
-		for (String imageCodeUrl : imageCodeUrls) {
-			urlMap.put(imageCodeUrl, ValidateCodeTypeEnum.IMAGE);
-		}
+		urlMap.put(securityProperties.getBrowser().getLoginProcessUrlMobile(), ValidateCodeTypeEnum.SMS);
+		
+		addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeTypeEnum.IMAGE);
+		addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeTypeEnum.SMS);
 	}
 	
+	private void addUrlToMap(String validateCodeUrl, ValidateCodeTypeEnum validateCodeType) {
+		String[] validateCodeUrls = StringUtils.splitByWholeSeparator(validateCodeUrl, ",");
+		for (String url : validateCodeUrls) {
+			urlMap.put(url, validateCodeType);
+		}
+	}
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+		System.out.println("ValidateCodeFilter: " + request.getRequestURL());
 		
 		ValidateCodeTypeEnum validateCodeType = null;
 		for (Entry<String, ValidateCodeTypeEnum> entry : urlMap.entrySet()) {
@@ -84,12 +92,12 @@ public class ImageCodeFilter extends OncePerRequestFilter implements Initializin
 		
 		// 验证码不能为空
 		if (StringUtils.isBlank(codeInRequest)) {
-			throw new ValidateCodeException("验证码的值不能为空");
+			throw new ValidateCodeException("请填写验证码");
 		}
 		
 		// 验证码不存在
 		if (codeInRequest == null) {
-			throw new ValidateCodeException("验证码不存在");
+			throw new ValidateCodeException("请先获取验证码");
 		}
 		
 		// 验证码已过期
@@ -114,11 +122,11 @@ public class ImageCodeFilter extends OncePerRequestFilter implements Initializin
 		this.authenticationFailureHandler = authenticationFailureHandler;
 	}
 
-	public ImoocSecurityProperties getSecurityProperties() {
+	public SecurityProperties getSecurityProperties() {
 		return securityProperties;
 	}
 
-	public void setSecurityProperties(ImoocSecurityProperties securityProperties) {
+	public void setSecurityProperties(SecurityProperties securityProperties) {
 		this.securityProperties = securityProperties;
 	}
 }
