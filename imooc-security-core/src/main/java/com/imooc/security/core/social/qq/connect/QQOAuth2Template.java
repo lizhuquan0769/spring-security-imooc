@@ -21,13 +21,6 @@ public class QQOAuth2Template extends OAuth2Template {
 	}
 	
 	@Override
-	protected RestTemplate createRestTemplate() {
-		RestTemplate restTemplate = super.createRestTemplate();
-		restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
-		return restTemplate;
-	}
-	
-	@Override
 	protected AccessGrant postForAccessGrant(String accessTokenUrl, MultiValueMap<String, String> parameters) {
 		String responseStr = getRestTemplate().postForObject(accessTokenUrl, parameters, String.class);
 		logger.info("发送的accessTokenUrl：" + accessTokenUrl);
@@ -40,6 +33,13 @@ public class QQOAuth2Template extends OAuth2Template {
 		String refreshToken = StringUtils.substringAfterLast(items[2], "=");
 	
 		return new AccessGrant(accessToken, null, refreshToken, expiresIn);
+	}
+	
+	@Override
+	protected RestTemplate createRestTemplate() {
+		RestTemplate restTemplate = super.createRestTemplate();
+		restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
+		return restTemplate;
 	}
 	
 }

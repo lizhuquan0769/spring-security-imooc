@@ -1,8 +1,9 @@
-package com.imooc.security.core.social.qq;
+package com.imooc.security.core.social;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.encrypt.Encryptors;
@@ -17,8 +18,10 @@ import org.springframework.social.security.SpringSocialConfigurer;
 
 import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.properties.contsant.SecurityConstants;
+import com.imooc.security.core.social.qq.config.QQAutoConfig;
 
 @Configuration
+@AutoConfigureBefore(value = {QQAutoConfig.class})
 @EnableSocial
 public class SocialConfig extends SocialConfigurerAdapter {
 	
@@ -38,10 +41,10 @@ public class SocialConfig extends SocialConfigurerAdapter {
 	@Override
 	public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
 		JdbcUsersConnectionRepository jdbcUsersConnectionRepository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
+		jdbcUsersConnectionRepository.setTablePrefix(SecurityConstants.DEFAULT_SOCIAL_USER_CONNECTION_PREFIX);
 		if (connectionSignUp != null) {
 			jdbcUsersConnectionRepository.setConnectionSignUp(connectionSignUp);
 		}
-		jdbcUsersConnectionRepository.setTablePrefix(SecurityConstants.DEFAULT_SOCIAL_USER_CONNECTION_PREFIX);
 		return jdbcUsersConnectionRepository;
 	}
 	

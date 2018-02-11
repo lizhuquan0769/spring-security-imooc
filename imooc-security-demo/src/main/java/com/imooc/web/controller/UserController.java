@@ -48,6 +48,8 @@ public class UserController {
 		// 不管是注册用户还是绑定用户，都会拿到一个用户唯一标识
 		String userId = user.getUsername();
 		
+		logger.info(request.getParameter("type"));
+		
 		providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
 	}
 	

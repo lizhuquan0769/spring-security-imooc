@@ -38,8 +38,18 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
 		String openIdResult = getRestTemplate().getForObject(openIdUrl, String.class);
 		logger.info(openIdResult);
 		
-		this.openId = StringUtils.substringBetween(openIdResult, "\"opendid\":\"", "\"}");
+		this.openId = StringUtils.substringBetween(openIdResult, "\"openid\":\"", "\"}");
 	}
+	
+//	/**
+//	 * 默认注册的StringHttpMessageConverter字符集为ISO-8859-1，而微信返回的是UTF-8的，所以覆盖了原来的方法。
+//	 */
+//	protected List<HttpMessageConverter<?>> getMessageConverters() {
+//		List<HttpMessageConverter<?>> messageConverters = super.getMessageConverters();
+//		messageConverters.remove(0);
+//		messageConverters.add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
+//		return messageConverters;
+//	}
 	
 	@Override
 	public QQUserInfo getUserInfo() {
@@ -50,6 +60,7 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
 		QQUserInfo userInfo = null;
 		try {
 			userInfo = objectMapper.readValue(userInfoResult, QQUserInfo.class);
+			userInfo.setOpenId(openId);
 		} catch (Exception e) {
 			throw new RuntimeException("获取qq用户信息失败");
 		}

@@ -26,12 +26,12 @@ public class QQAdapter implements ApiAdapter<QQ>{
 	@Override
 	public void setConnectionValues(QQ api, ConnectionValues values) {
 		QQUserInfo userInfo = api.getUserInfo();
-		logger.info(userInfo.toString());
+		logger.info("QQImpl调用获取用户信息： " + userInfo.toString());
 		
-		values.setDisplayName("displayName"); // 昵称
-		values.setImageUrl("imageUrl"); // 图像url
-		values.setProfileUrl("profileUrl"); //个人主页
-		values.setProviderUserId("providerUserId"); // openid
+		values.setDisplayName(userInfo.getNickname()); // 昵称
+		values.setImageUrl(userInfo.getFigureurl()); // 图像url
+		values.setProfileUrl(null); //个人主页
+		values.setProviderUserId(userInfo.getOpenId()); // openid
 	}
 
 	@Override

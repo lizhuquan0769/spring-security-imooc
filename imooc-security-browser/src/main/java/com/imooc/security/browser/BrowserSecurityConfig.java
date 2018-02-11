@@ -66,6 +66,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http
+		// 表单登陆相关配置
+			.formLogin()
+				.loginPage(securityProperties.getBrowser().getUnAuthenticationUrl()) //表单登陆URL
+				.loginProcessingUrl(securityProperties.getBrowser().getLoginProcessUrlForm()) //处理登陆请求的URL
+				.successHandler(authenticationSuccessHandler) // 登陆成功处理器
+				.failureHandler(authenticationFailureHandler) // 登陆失败处理器
+		.and()
 			// 验证码校验相关配置
 			.apply(validateCodeSecurityConfig)
 		.and()
@@ -74,13 +81,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 			// social登陆相关配置
 			.apply(imoocSocialSecurityConfig)
-		.and()
-			// 表单登陆相关配置
-			.formLogin()
-				.loginPage(securityProperties.getBrowser().getUnAuthenticationUrl()) //表单登陆URL
-				.loginProcessingUrl(securityProperties.getBrowser().getLoginProcessUrlForm()) //处理登陆请求的URL
-				.successHandler(authenticationSuccessHandler) // 登陆成功处理器
-				.failureHandler(authenticationFailureHandler) // 登陆失败处理器
 		.and()
 			// 记住我
 			.rememberMe()
