@@ -13,6 +13,11 @@ public class SecurityConstants {
 	public static final String DEFAULT_LOGIN_PAGE_URL = "/imooc-signin.html";
 	
 	/**
+	 * 默认注册也url
+	 */
+	public static final String DEFAULT_SINGUP_PAGE_URL = "/imooc-singup.html";
+	
+	/**
 	 * 默认获取图像验证码的url
 	 */
 	public static final String DEFAULT_VALIDATE_CODE_URL_IMAGE = "/code/image";
@@ -21,6 +26,11 @@ public class SecurityConstants {
 	 * 默认获取短信验证码的url
 	 */
 	public static final String DEFAULT_VALIDATE_CODE_URL_SMS = "/code/sms";
+	
+	/**
+	 * 注册处理url
+	 */
+	public static final String DEFAULT_SINGUP_PROCESS_URL = "/regist";
 	
 	/**
 	 * 默认的用户名密码登录请求处理url
@@ -46,5 +56,10 @@ public class SecurityConstants {
 	 * 发送短信验证码 或 验证短信验证码时，传递手机号的参数的名称
 	 */
 	public static final String DEFAULT_REQUEST_PARAMETER_MOBILE = "mobile";
+	
+	/**
+	 * 默认的Social UserConnection表名的前缀
+	 */
+	public static final String DEFAULT_SOCIAL_USER_CONNECTION_PREFIX = "imooc_";
 	
 }

@@ -1,13 +1,11 @@
 package com.imooc.security.core.social.qq.api;
 
-import java.io.IOException;
-
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.TokenStrategy;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -18,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
 
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	private static final String URL_GET_OPENID = "https://graph.qq.com/oauth2.0/me?access_token=%s";
 	
 	private static final String URL_GET_USERINFO = "https://graph.qq.com/user/get_user_info?&oauth_consumer_key=%s&openid=%s";
@@ -36,16 +36,16 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
 		// 根据accessToken换取openid
 		String openIdUrl = String.format(URL_GET_OPENID, accessToken);
 		String openIdResult = getRestTemplate().getForObject(openIdUrl, String.class);
-		System.out.println(openIdResult);
+		logger.info(openIdResult);
 		
-		this.openId = StringUtils.substringBetween(openIdResult, "\"opendid\":", "}");
+		this.openId = StringUtils.substringBetween(openIdResult, "\"opendid\":\"", "\"}");
 	}
 	
 	@Override
 	public QQUserInfo getUserInfo() {
 		String userInfoUrl = String.format(URL_GET_USERINFO, appId, openId);
 		String userInfoResult = getRestTemplate().getForObject(userInfoUrl, String.class);
-		System.out.println(userInfoResult);
+		logger.info(userInfoResult);
 		
 		QQUserInfo userInfo = null;
 		try {

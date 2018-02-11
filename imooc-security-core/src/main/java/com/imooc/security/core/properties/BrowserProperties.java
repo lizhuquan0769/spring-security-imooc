@@ -4,7 +4,8 @@ import com.imooc.security.core.properties.contsant.AuthenticationResponseTypeEnu
 import com.imooc.security.core.properties.contsant.SecurityConstants;
 
 public class BrowserProperties {
-	
+	private String signUpPageUrl = SecurityConstants.DEFAULT_SINGUP_PAGE_URL;
+	private String signUpProcessUrl = SecurityConstants.DEFAULT_SINGUP_PROCESS_URL;
 	private String unAuthenticationUrl = SecurityConstants.DEFAULT_UNAUTHENTICATION_URL;
 	private String loginPageUrl = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
 	private String validateCodeUrlImage = SecurityConstants.DEFAULT_VALIDATE_CODE_URL_IMAGE;
@@ -76,5 +77,21 @@ public class BrowserProperties {
 
 	public void setValidateCodeUrlSms(String validateCodeUrlSms) {
 		this.validateCodeUrlSms = validateCodeUrlSms;
+	}
+
+	public String getSignUpPageUrl() {
+		return signUpPageUrl;
+	}
+
+	public void setSignUpPageUrl(String signUpUrl) {
+		this.signUpPageUrl = signUpUrl;
+	}
+
+	public String getSignUpProcessUrl() {
+		return signUpProcessUrl;
+	}
+
+	public void setSignUpProcessUrl(String signUpProcessUrl) {
+		this.signUpProcessUrl = signUpProcessUrl;
 	}
 }

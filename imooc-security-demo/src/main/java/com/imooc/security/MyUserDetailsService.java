@@ -1,11 +1,8 @@
-package com.imooc.security.browser.userdetails;
-
-import java.util.List;
+package com.imooc.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +25,6 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		String password = "123456";
-		// 根据查找到的用户信息判断用户是否被冻结
 		logger.info("登陆用户名：" + username + "登陆成功");
 		return new User(username, passwordEncoder.encode(password), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
 	}
@@ -36,7 +32,6 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
 	@Override
 	public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
 		String password = "123456";
-		// 根据查找到的用户信息判断用户是否被冻结
 		logger.info("登陆用户ID：" + userId + "登陆成功");
 		return new SocialUser(userId, passwordEncoder.encode(password), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
 	}

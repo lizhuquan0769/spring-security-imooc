@@ -3,20 +3,33 @@ package com.imooc.security.core.social.qq;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
+import org.springframework.social.connect.web.ProviderSignInUtils;
+import org.springframework.social.security.SpringSocialConfigurer;
+
+import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.properties.contsant.SecurityConstants;
 
 @Configuration
 @EnableSocial
 public class SocialConfig extends SocialConfigurerAdapter {
 	
 	@Autowired
+	private SecurityProperties securityProperties;
+	
+	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired(required = false)
+	private ConnectionSignUp connectionSignUp;
 	
 	/**
 	 * ConnectionFactoryLocator: 查找connectionFactory, 可能有多个QQ,微信等, 会根据条件查找具体实现
@@ -25,7 +38,22 @@ public class SocialConfig extends SocialConfigurerAdapter {
 	@Override
 	public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
 		JdbcUsersConnectionRepository jdbcUsersConnectionRepository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
-		jdbcUsersConnectionRepository.setTablePrefix("imooc_");
+		if (connectionSignUp != null) {
+			jdbcUsersConnectionRepository.setConnectionSignUp(connectionSignUp);
+		}
+		jdbcUsersConnectionRepository.setTablePrefix(SecurityConstants.DEFAULT_SOCIAL_USER_CONNECTION_PREFIX);
 		return jdbcUsersConnectionRepository;
+	}
+	
+	@Bean
+	public SpringSocialConfigurer imoocSocialSecurityConfig() {
+		ImoocSpringSocialConfigurer configurer = new ImoocSpringSocialConfigurer(securityProperties.getSocial().getFilterProcessUrl());
+		configurer.signupUrl(securityProperties.getBrowser().getSignUpPageUrl());
+		return configurer;
+	}
+	
+	@Bean
+	public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator) {
+		return new ProviderSignInUtils(connectionFactoryLocator, getUsersConnectionRepository(connectionFactoryLocator));
 	}
 }

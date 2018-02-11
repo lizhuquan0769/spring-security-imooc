@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import com.imooc.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.imooc.security.core.properties.SecurityProperties;
@@ -45,6 +46,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 	
+	@Autowired
+	private SpringSocialConfigurer imoocSocialSecurityConfig;
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -62,11 +66,14 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http
-			// 验证码相关配置
+			// 验证码校验相关配置
 			.apply(validateCodeSecurityConfig)
 		.and()
 			// 验证码登陆相关配置
 			.apply(smsCodeAuthenticationSecurityConfig)
+		.and()
+			// social登陆相关配置
+			.apply(imoocSocialSecurityConfig)
 		.and()
 			// 表单登陆相关配置
 			.formLogin()
@@ -84,7 +91,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 			// url访问授权配置
 			.authorizeRequests() //对请求授权
 			.antMatchers(
-					securityProperties.getBrowser().getUnAuthenticationUrl(), 
+					securityProperties.getBrowser().getSignUpPageUrl(),
+					securityProperties.getBrowser().getSignUpProcessUrl(),
+					securityProperties.getBrowser().getUnAuthenticationUrl(),
 					securityProperties.getBrowser().getLoginPageUrl(),
 					securityProperties.getBrowser().getLoginProcessUrlMobile(), 
 					securityProperties.getBrowser().getValidateCodeUrlImage(),

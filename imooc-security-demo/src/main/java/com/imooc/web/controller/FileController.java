@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,13 +23,16 @@ import com.imooc.dto.FileInfo;
 @RestController
 @RequestMapping("/files")
 public class FileController {
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	private String folder = "C:/";
 	
 	@PostMapping
 	public FileInfo upload(MultipartFile file) throws Exception {
-		System.out.println(file.getName()); //参数名
-		System.out.println(file.getOriginalFilename()); //原始文件名
-		System.out.println(file.getSize()); //文件尺寸
+		logger.info(file.getName()); //参数名
+		logger.info(file.getOriginalFilename()); //原始文件名
+		logger.info(file.getSize() + ""); //文件尺寸
 		
 		File localFile = new File(folder, System.currentTimeMillis() + ".txt");
 		file.transferTo(localFile);

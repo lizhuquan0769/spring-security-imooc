@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
@@ -24,6 +26,8 @@ import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.properties.contsant.ValidateCodeTypeEnum;
 
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	
@@ -55,7 +59,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		System.out.println("ValidateCodeFilter: " + request.getRequestURL());
+		logger.info("ValidateCodeFilter: " + request.getRequestURL());
 		
 		ValidateCodeTypeEnum validateCodeType = null;
 		for (Entry<String, ValidateCodeTypeEnum> entry : urlMap.entrySet()) {
