@@ -14,6 +14,8 @@ public class BrowserProperties {
 	private String loginProcessUrlMobile = SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_MOBILE;
 	private AuthenticationResponseTypeEnum authentionResponseType = AuthenticationResponseTypeEnum.JSON;
 	private int rememberMeSeconds = 604800;
+	
+	private SessionProperties session = new SessionProperties();
 
 	public AuthenticationResponseTypeEnum getAuthentionResponseType() {
 		return authentionResponseType;
@@ -93,5 +95,13 @@ public class BrowserProperties {
 
 	public void setSignUpProcessUrl(String signUpProcessUrl) {
 		this.signUpProcessUrl = signUpProcessUrl;
+	}
+
+	public SessionProperties getSession() {
+		return session;
+	}
+
+	public void setSession(SessionProperties session) {
+		this.session = session;
 	}
 }

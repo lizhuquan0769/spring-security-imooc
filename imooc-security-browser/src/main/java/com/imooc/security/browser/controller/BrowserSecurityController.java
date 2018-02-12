@@ -73,16 +73,29 @@ public class BrowserSecurityController {
 		}
 	}
 	
+	/**
+	 * 查看已绑定用户
+	 * @param request
+	 * @return
+	 */
 	@GetMapping("/social/user")
 	public SocialUserInfo getSocialInfo(HttpServletRequest request) {
 		SocialUserInfo userInfo = new SocialUserInfo();
 		Connection<?> connection = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
 		
-		userInfo.setProviderId(connection.getKey().getProviderId());
-		userInfo.setProviderUserId(connection.getKey().getProviderUserId());
-		userInfo.setNickname(connection.getDisplayName());
-		userInfo.setHeadimg(connection.getImageUrl());
+		if (connection != null)  {
+			userInfo.setProviderId(connection.getKey().getProviderId());
+			userInfo.setProviderUserId(connection.getKey().getProviderUserId());
+			userInfo.setNickname(connection.getDisplayName());
+			userInfo.setHeadimg(connection.getImageUrl());
+		}
 		
 		return userInfo;
+	}
+	
+	@GetMapping("/session/invalid")
+	public void sessionInvalid(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setContentType("text/plain;charset=UTF-8");
+		response.getWriter().write("会话已失效...");
 	}
 }

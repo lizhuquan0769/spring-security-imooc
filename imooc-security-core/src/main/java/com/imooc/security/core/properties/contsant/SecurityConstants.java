@@ -62,4 +62,18 @@ public class SecurityConstants {
 	 */
 	public static final String DEFAULT_SOCIAL_USER_CONNECTION_PREFIX = "imooc_";
 	
+	/**
+	 * 默认的session失效时重定向地址
+	 */
+	public static final String DEFAULT_INVALID_SESSION_REDIRECT_URL = "/session/invalid";
+	
+	/**
+	 * 默认同一用户最多产生的session数
+	 */
+	public static final int DEFAULT_MAX_SESSIOIN_PRE_USER = 1;
+	
+	/**
+	 * 默认如果超出最大session限制, 是否阻止用户登陆
+	 */
+	public static final boolean DEFAULT_MAX_SESSION_PREVENTS_LOGIN = false;
 }
