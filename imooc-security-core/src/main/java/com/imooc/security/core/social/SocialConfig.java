@@ -3,7 +3,7 @@ package com.imooc.security.core.social;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.encrypt.Encryptors;
@@ -15,13 +15,12 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.SpringSocialConfigurer;
+import org.springframework.web.servlet.View;
 
 import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.properties.contsant.SecurityConstants;
-import com.imooc.security.core.social.qq.config.QQAutoConfig;
 
 @Configuration
-@AutoConfigureBefore(value = {QQAutoConfig.class})
 @EnableSocial
 public class SocialConfig extends SocialConfigurerAdapter {
 	
@@ -58,5 +57,11 @@ public class SocialConfig extends SocialConfigurerAdapter {
 	@Bean
 	public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator) {
 		return new ProviderSignInUtils(connectionFactoryLocator, getUsersConnectionRepository(connectionFactoryLocator));
+	}
+	
+	@Bean("connect/status")
+	@ConditionalOnMissingBean(name = "connect/status")
+	public View connectStatusView() {
+		return new ImoocConnecStatusView();
 	}
 }

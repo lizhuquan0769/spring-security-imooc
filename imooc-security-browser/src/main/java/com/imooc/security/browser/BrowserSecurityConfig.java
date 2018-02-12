@@ -93,8 +93,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		.sessionManagement()
 			// session失效时的重定向地址
 			.invalidSessionUrl(securityProperties.getBrowser().getSession().getSessionInvalidRedirectUrl())
-			// session失效的处理器
-//			.invalidSessionStrategy(invalidSessionStrategy)
+			// session失效的处理器， 此项设置了的话，invalidSessionUrl将失效，两者二选一
+			.invalidSessionStrategy(invalidSessionStrategy)
 			// 同一用户最多产生的session数
 			.maximumSessions(securityProperties.getBrowser().getSession().getMaxinumSession())
 			// 如果超出最大session限制, 则阻止登陆

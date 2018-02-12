@@ -68,7 +68,8 @@ public class AbstractSessionStrategy {
 		String targetUrl;
 
 		if (StringUtils.endsWithIgnoreCase(sourceUrl, ".html")) {
-			targetUrl = destinationUrl+".html";
+//			targetUrl = destinationUrl + ".html";
+			targetUrl = destinationUrl;
 			logger.info("session失效,跳转到"+targetUrl);
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		}else{
@@ -80,7 +81,6 @@ public class AbstractSessionStrategy {
 			response.setContentType("application/json;charset=UTF-8");
 			response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(message)));
 		}
-		
 	}
 
 	/**

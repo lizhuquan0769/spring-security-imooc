@@ -8,7 +8,7 @@ public class SessionProperties {
 	
 	private int maxinumSession = SecurityConstants.DEFAULT_MAX_SESSIOIN_PRE_USER;
 	
-	private boolean maxSessionsPreventsLogin = false;
+	private boolean maxSessionsPreventsLogin = SecurityConstants.DEFAULT_MAX_SESSION_PREVENTS_LOGIN;
 
 	public String getSessionInvalidRedirectUrl() {
 		return sessionInvalidRedirectUrl;

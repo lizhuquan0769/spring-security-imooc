@@ -1,7 +1,9 @@
 package com.imooc.security.core.social.qq.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.social.UserIdSource;
@@ -9,9 +11,11 @@ import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.SocialConfigurer;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
+import org.springframework.web.servlet.View;
 
 import com.imooc.security.core.properties.QQProperties;
 import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.social.ImoocConnectedView;
 import com.imooc.security.core.social.qq.connect.QQConnectionFactory;
 
 @Configuration
@@ -39,5 +43,11 @@ public class QQAutoConfig implements SocialConfigurer {
 	@Override
 	public UserIdSource getUserIdSource() {
 		return null;
+	}
+	
+	@Bean(name = {"connect/qqConnect", "connect/qqConnected"})
+	@ConditionalOnMissingBean(name = {"connect/qqConnect", "connect/qqConnected"})
+	public View qqConnectedView() {
+		return new ImoocConnectedView();
 	}
 }
