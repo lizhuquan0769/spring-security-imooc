@@ -1,5 +1,6 @@
 package com.imooc.security.core.validate.code;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -7,7 +8,13 @@ import java.time.LocalDateTime;
  * @author lizhuquan
  *
  */
-public class ValidateCode {
+public class ValidateCode implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected String code;
 	
 	protected LocalDateTime expireTime;

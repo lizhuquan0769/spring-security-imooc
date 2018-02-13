@@ -22,7 +22,7 @@ public class ValidateCodeController {
 	
 	
 	@GetMapping("#{globalSecurityProperties.browser.validateCodeUrlImage}")
-	public void createCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void createImageCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		imageCodeProcessor.process(new ServletWebRequest(request, response));
 	}
 	

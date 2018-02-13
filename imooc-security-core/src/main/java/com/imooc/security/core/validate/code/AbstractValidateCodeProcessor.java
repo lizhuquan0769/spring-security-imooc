@@ -15,8 +15,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode,G ext
 		send(request, validateCode);
 	}
 	
-	private void save(ServletWebRequest request, ValidateCode validateCode) {
-		sessionStrategy.setAttribute(request, ValidateCodeHttpUtils.getValidateCodeSessionKey(validateCode), validateCode);
+	private void save(ServletWebRequest request, C validateCode) {
+		ValidateCode codeToSave = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
+		sessionStrategy.setAttribute(request, ValidateCodeHttpUtils.getValidateCodeSessionKey(validateCode), codeToSave);
 	}
 
 	@SuppressWarnings("unchecked")

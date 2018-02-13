@@ -94,8 +94,9 @@ public class BrowserSecurityController {
 	}
 	
 	@GetMapping("#{globalSecurityProperties.browser.session.sessionInvalidRedirectUrl}")
-	public void sessionInvalid(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.setContentType("text/plain;charset=UTF-8");
-		response.getWriter().write("会话已失效...");
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public SimpleResponse sessionInvalid(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String message = "session失效哦， /session/invalid";
+		return new SimpleResponse(message);
 	}
 }
