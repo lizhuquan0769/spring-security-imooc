@@ -43,8 +43,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	public void afterPropertiesSet() throws ServletException {
 		super.afterPropertiesSet();
 		
-		urlMap.put(securityProperties.getBrowser().getLoginProcessUrlForm(), ValidateCodeTypeEnum.IMAGE);
-		urlMap.put(securityProperties.getBrowser().getLoginProcessUrlMobile(), ValidateCodeTypeEnum.SMS);
+		urlMap.put(securityProperties.getBrowser().getSigninProcessUrlForm(), ValidateCodeTypeEnum.IMAGE);
+		urlMap.put(securityProperties.getBrowser().getSigninProcessUrlMobile(), ValidateCodeTypeEnum.SMS);
 		
 		addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeTypeEnum.IMAGE);
 		addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeTypeEnum.SMS);

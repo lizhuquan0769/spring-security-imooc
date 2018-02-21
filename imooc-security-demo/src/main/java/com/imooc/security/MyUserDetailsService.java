@@ -26,7 +26,7 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
 	public SocialUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		String password = "123456";
 		logger.info("登陆用户名：" + username + "登陆成功");
-		return new SocialUser(username, passwordEncoder.encode(password), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+		return new SocialUser(username, passwordEncoder.encode(password), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
 	}
 
 	@Override

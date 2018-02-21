@@ -1,4 +1,4 @@
-package com.imooc.security.browser.support;
+package com.imooc.security.core.support;
 
 public class SocialUserInfo {
 	private String providerId;

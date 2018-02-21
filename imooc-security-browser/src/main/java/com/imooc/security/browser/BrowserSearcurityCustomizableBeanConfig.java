@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.session.InvalidSessionStrategy;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 
-import com.imooc.security.browser.authencation.ImoocAuthencationSuccessHandler;
-import com.imooc.security.browser.authencation.ImoocAuthenticationFailureHandler;
+import com.imooc.security.browser.authentication.ImoocAuthenticationSuccessHandler;
+import com.imooc.security.browser.authentication.ImoocAuthenticationFailureHandler;
+import com.imooc.security.browser.logout.ImoocLogoutSuccessHandler;
 import com.imooc.security.browser.session.ImoocExpiredSessionStrategy;
 import com.imooc.security.browser.session.ImoocInvalidSessionStrategy;
 import com.imooc.security.core.properties.SecurityProperties;
@@ -31,7 +31,7 @@ public class BrowserSearcurityCustomizableBeanConfig {
 	@Bean
 	@ConditionalOnMissingBean(value = AuthenticationSuccessHandler.class)
 	public AuthenticationSuccessHandler authenticationSuccessHandler() {
-		return new ImoocAuthencationSuccessHandler();
+		return new ImoocAuthenticationSuccessHandler();
 	}
 	
 	@Bean
@@ -53,8 +53,8 @@ public class BrowserSearcurityCustomizableBeanConfig {
 	}
 	
 	@Bean
-	@ConditionalOnMissingBean(value = PasswordEncoder.class)
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	@ConditionalOnMissingBean(value = LogoutSuccessHandler.class)
+	public LogoutSuccessHandler logoutSuccessHandler() {
+		return new ImoocLogoutSuccessHandler(securityProperties.getBrowser().getSignoutSuccessUrl());
 	}
 }

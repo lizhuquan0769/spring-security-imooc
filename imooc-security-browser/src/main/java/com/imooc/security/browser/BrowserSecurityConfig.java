@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.InvalidSessionStrategy;
@@ -47,6 +48,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	private InvalidSessionStrategy invalidSessionStrategy;
 	
 	@Autowired
+	private LogoutSuccessHandler logoutSuccessHandler;
+	
+	@Autowired
 	private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 	
 	@Autowired
@@ -67,13 +71,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http
-		// 表单登陆相关配置
-		.formLogin()
-			.loginPage(securityProperties.getBrowser().getUnAuthenticationUrl()) //表单登陆URL
-			.loginProcessingUrl(securityProperties.getBrowser().getLoginProcessUrlForm()) //处理登陆请求的URL
-			.successHandler(authenticationSuccessHandler) // 登陆成功处理器
-			.failureHandler(authenticationFailureHandler) // 登陆失败处理器
-			.and()
 		// 验证码校验相关配置
 		.apply(validateCodeSecurityConfig)
 			.and()
@@ -82,6 +79,22 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 		// social登陆相关配置
 		.apply(imoocSocialSecurityConfig)
+			.and()
+		// 表单登陆相关配置
+		.formLogin()
+			.loginPage(securityProperties.getBrowser().getUnAuthenticationUrl()) //表单登陆URL
+			.loginProcessingUrl(securityProperties.getBrowser().getSigninProcessUrlForm()) //处理登陆请求的URL
+			.successHandler(authenticationSuccessHandler) // 登陆成功处理器
+			.failureHandler(authenticationFailureHandler) // 登陆失败处理器
+			.and()
+		// 退出登陆相关配置
+		.logout()
+			// 退出登陆的动作
+			.logoutUrl(securityProperties.getBrowser().getSignoutUrl())
+			.logoutSuccessUrl(securityProperties.getBrowser().getSignoutSuccessUrl())
+			// 退出成功后的重定向地址，logoutSuccessHandler与logoutSuccessUrl互斥， 若配置该项，logoutSuccessUrl配置将失效, 不过handler可以通过该配置逻辑控制
+			.logoutSuccessHandler(logoutSuccessHandler)
+			.deleteCookies(securityProperties.getBrowser().getSignoutDeleteCookies())
 			.and()
 		// 记住我
 		.rememberMe()
@@ -92,8 +105,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		// session配置
 		.sessionManagement()
 			// session失效时的重定向地址
-			.invalidSessionUrl(securityProperties.getBrowser().getSession().getSessionInvalidRedirectUrl())
-			// session失效的处理器， 此项设置了的话，invalidSessionUrl将失效，两者二选一
+//			.invalidSessionUrl(securityProperties.getBrowser().getSession().getSessionInvalidRedirectUrl())
+			// session失效的处理器， 此项设置了的话，invalidSessionUrl将失效
 			.invalidSessionStrategy(invalidSessionStrategy)
 			// 同一用户最多产生的session数
 			.maximumSessions(securityProperties.getBrowser().getSession().getMaxinumSession())
@@ -108,14 +121,15 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 			// ant匹配的请求
 			.antMatchers(
-					securityProperties.getBrowser().getSignUpPageUrl(),
-					securityProperties.getBrowser().getSignUpProcessUrl(),
+					securityProperties.getBrowser().getSignupPageUrl(),
+					securityProperties.getBrowser().getSignupProcessUrl(),
 					securityProperties.getBrowser().getUnAuthenticationUrl(),
-					securityProperties.getBrowser().getLoginPageUrl(),
-					securityProperties.getBrowser().getLoginProcessUrlMobile(), 
+					securityProperties.getBrowser().getSigninPageUrl(),
+					securityProperties.getBrowser().getSigninProcessUrlMobile(), 
 					securityProperties.getBrowser().getValidateCodeUrlImage(),
 					securityProperties.getBrowser().getValidateCodeUrlSms(),
-					securityProperties.getBrowser().getSession().getSessionInvalidRedirectUrl()
+					securityProperties.getBrowser().getSession().getSessionInvalidRedirectUrl(),
+					securityProperties.getBrowser().getSignoutSuccessUrl()
 					)
 				//放行
 				.permitAll() 

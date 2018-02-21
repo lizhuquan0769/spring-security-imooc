@@ -10,7 +10,7 @@ public class SecurityConstants {
 	/**
 	 * 默认登录页面url
 	 */
-	public static final String DEFAULT_LOGIN_PAGE_URL = "/imooc-signin.html";
+	public static final String DEFAULT_SIGNIN_PAGE_URL = "/imooc-signin.html";
 	
 	/**
 	 * 默认注册也url
@@ -35,12 +35,12 @@ public class SecurityConstants {
 	/**
 	 * 默认的用户名密码登录请求处理url
 	 */
-	public static final String DEFAULT_LOGIN_PROCESS_URL_FORM = "/authentication/form";
+	public static final String DEFAULT_SIGNIN_PROCESS_URL_FORM = "/authentication/form";
 	
 	/**
 	 * 默认的手机验证码登录请求处理url
 	 */
-	public static final String DEFAULT_LOGIN_PROCESS_URL_MOBILE = "/authentication/mobile";
+	public static final String DEFAULT_SIGNIN_PROCESS_URL_MOBILE = "/authentication/mobile";
 	
 	/**
 	 * 验证图片验证码时，http请求中默认的携带图片验证码信息的参数的名称
@@ -65,7 +65,7 @@ public class SecurityConstants {
 	/**
 	 * 默认的session失效时重定向地址
 	 */
-	public static final String DEFAULT_INVALID_SESSION_REDIRECT_URL = "/session/invalid";
+	public static final String DEFAULT_INVALID_SESSION_REDIRECT_URL = "/imooc-session-invalid.html";
 	
 	/**
 	 * 默认同一用户最多产生的session数
@@ -76,4 +76,19 @@ public class SecurityConstants {
 	 * 默认如果超出最大session限制, 是否阻止用户登陆
 	 */
 	public static final boolean DEFAULT_MAX_SESSION_PREVENTS_LOGIN = false;
+	
+	/**
+	 * 默认退出登陆URL
+	 */
+	public static final String DEFAULT_SIGNOUT_URL = "/signout";
+	
+	/**
+	 * 默认成功退出登陆URL
+	 */
+	public static final String DEFAULT_SIGNOUT_SUCCESS_URL = "/imooc-signout.html";
+	
+	/**
+	 * 默认退出登陆后删除的cookies
+	 */
+	public static final String[] DEFAULT_SIGNOUT_DELETE_COOKIES = new String[] {"JSESSIONID", "SESSIONID"};
 }

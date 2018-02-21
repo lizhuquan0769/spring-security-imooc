@@ -4,16 +4,19 @@ import com.imooc.security.core.properties.contsant.AuthenticationResponseTypeEnu
 import com.imooc.security.core.properties.contsant.SecurityConstants;
 
 public class BrowserProperties {
-	private String signUpPageUrl = SecurityConstants.DEFAULT_SINGUP_PAGE_URL;
-	private String signUpProcessUrl = SecurityConstants.DEFAULT_SINGUP_PROCESS_URL;
+	private String signupPageUrl = SecurityConstants.DEFAULT_SINGUP_PAGE_URL;
+	private String signupProcessUrl = SecurityConstants.DEFAULT_SINGUP_PROCESS_URL;
 	private String unAuthenticationUrl = SecurityConstants.DEFAULT_UNAUTHENTICATION_URL;
-	private String loginPageUrl = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
+	private String signinPageUrl = SecurityConstants.DEFAULT_SIGNIN_PAGE_URL;
 	private String validateCodeUrlImage = SecurityConstants.DEFAULT_VALIDATE_CODE_URL_IMAGE;
 	private String validateCodeUrlSms = SecurityConstants.DEFAULT_VALIDATE_CODE_URL_SMS;
-	private String loginProcessUrlForm = SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_FORM;
-	private String loginProcessUrlMobile = SecurityConstants.DEFAULT_LOGIN_PROCESS_URL_MOBILE;
+	private String signinProcessUrlForm = SecurityConstants.DEFAULT_SIGNIN_PROCESS_URL_FORM;
+	private String signinProcessUrlMobile = SecurityConstants.DEFAULT_SIGNIN_PROCESS_URL_MOBILE;
 	private AuthenticationResponseTypeEnum authentionResponseType = AuthenticationResponseTypeEnum.JSON;
 	private int rememberMeSeconds = 604800;
+	private String signoutUrl = SecurityConstants.DEFAULT_SIGNOUT_URL;
+	private String signoutSuccessUrl = SecurityConstants.DEFAULT_SIGNOUT_SUCCESS_URL;
+	private String[] signoutDeleteCookies = SecurityConstants.DEFAULT_SIGNOUT_DELETE_COOKIES;
 	
 	private SessionProperties session = new SessionProperties();
 
@@ -41,28 +44,28 @@ public class BrowserProperties {
 		this.unAuthenticationUrl = unAuthenticationUrl;
 	}
 
-	public String getLoginPageUrl() {
-		return loginPageUrl;
+	public String getSigninPageUrl() {
+		return signinPageUrl;
 	}
 
-	public void setLoginPageUrl(String loginPageUrl) {
-		this.loginPageUrl = loginPageUrl;
+	public void setSigninPageUrl(String signinPageUrl) {
+		this.signinPageUrl = signinPageUrl;
 	}
 
-	public String getLoginProcessUrlForm() {
-		return loginProcessUrlForm;
+	public String getSigninProcessUrlForm() {
+		return signinProcessUrlForm;
 	}
 
-	public void setLoginProcessUrlForm(String loginProcessUrlForm) {
-		this.loginProcessUrlForm = loginProcessUrlForm;
+	public void setSigninProcessUrlForm(String signinProcessUrlForm) {
+		this.signinProcessUrlForm = signinProcessUrlForm;
 	}
 
-	public String getLoginProcessUrlMobile() {
-		return loginProcessUrlMobile;
+	public String getSigninProcessUrlMobile() {
+		return signinProcessUrlMobile;
 	}
 
-	public void setLoginProcessUrlMobile(String loginProcessUrlMobile) {
-		this.loginProcessUrlMobile = loginProcessUrlMobile;
+	public void setSigninProcessUrlMobile(String signinProcessUrlMobile) {
+		this.signinProcessUrlMobile = signinProcessUrlMobile;
 	}
 
 	public String getValidateCodeUrlImage() {
@@ -81,20 +84,20 @@ public class BrowserProperties {
 		this.validateCodeUrlSms = validateCodeUrlSms;
 	}
 
-	public String getSignUpPageUrl() {
-		return signUpPageUrl;
+	public String getSignupPageUrl() {
+		return signupPageUrl;
 	}
 
-	public void setSignUpPageUrl(String signUpUrl) {
-		this.signUpPageUrl = signUpUrl;
+	public void setSignupPageUrl(String signupPageUrl) {
+		this.signupPageUrl = signupPageUrl;
 	}
 
-	public String getSignUpProcessUrl() {
-		return signUpProcessUrl;
+	public String getSignupProcessUrl() {
+		return signupProcessUrl;
 	}
 
-	public void setSignUpProcessUrl(String signUpProcessUrl) {
-		this.signUpProcessUrl = signUpProcessUrl;
+	public void setSignupProcessUrl(String signupProcessUrl) {
+		this.signupProcessUrl = signupProcessUrl;
 	}
 
 	public SessionProperties getSession() {
@@ -103,5 +106,29 @@ public class BrowserProperties {
 
 	public void setSession(SessionProperties session) {
 		this.session = session;
+	}
+
+	public String getSignoutUrl() {
+		return signoutUrl;
+	}
+
+	public void setSignoutUrl(String signoutUrl) {
+		this.signoutUrl = signoutUrl;
+	}
+
+	public String getSignoutSuccessUrl() {
+		return signoutSuccessUrl;
+	}
+
+	public void setSignoutSuccessUrl(String signoutSuccessUrl) {
+		this.signoutSuccessUrl = signoutSuccessUrl;
+	}
+
+	public String[] getSignoutDeleteCookies() {
+		return signoutDeleteCookies;
+	}
+
+	public void setSignoutDeleteCookies(String[] signoutDeleteCookies) {
+		this.signoutDeleteCookies = signoutDeleteCookies;
 	}
 }
