@@ -43,6 +43,11 @@ public class SecurityConstants {
 	public static final String DEFAULT_SIGNIN_PROCESS_URL_MOBILE = "/authentication/mobile";
 	
 	/**
+	 * 默认的openid登陆请求处理url
+	 */
+	public static final String DEFAULT_SIGNIN_PROCESS_URL_OPENID = "/authentication/openId";
+	
+	/**
 	 * 验证图片验证码时，http请求中默认的携带图片验证码信息的参数的名称
 	 */
 	public static final String DEFAULT_REQUEST_PARAMETER_IMAGECODE = "imageCode";
@@ -56,6 +61,16 @@ public class SecurityConstants {
 	 * 发送短信验证码 或 验证短信验证码时，传递手机号的参数的名称
 	 */
 	public static final String DEFAULT_REQUEST_PARAMETER_MOBILE = "mobile";
+	
+	/**
+	 * 社交登陆时， 传递的openId参数名
+	 */
+	public static final String DEFAULT_REQUEST_PARAMETER_OPENID = "openId";
+	
+	/**
+	 * 社交登陆时，传递的providerId参数名
+	 */
+	public static final String DEFAULT_REQUEST_PARAMETER_PROVIDERID = "providerId";
 	
 	/**
 	 * 默认的Social UserConnection表名的前缀

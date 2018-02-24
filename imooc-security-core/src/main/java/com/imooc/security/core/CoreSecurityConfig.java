@@ -22,7 +22,7 @@ public class CoreSecurityConfig {
 	
 	@Bean
 	@ConditionalOnMissingBean(value = ImageCodeGenerator.class)
-	public ImageCodeGenerator	 imageCodeGenerator() {
+	public ImageCodeGenerator imageCodeGenerator() {
 		DefaultImageCodeGenerator imageCodeGenerator = new DefaultImageCodeGenerator();
 		imageCodeGenerator.setSecurityProperties(securityProperties);
 		return imageCodeGenerator;

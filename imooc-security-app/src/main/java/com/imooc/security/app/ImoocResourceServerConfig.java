@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import com.imooc.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.imooc.security.core.authentication.openid.OpenIdAuthenticationSecurityConfig;
 import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.validate.code.RedisValidateCodeRepository;
 import com.imooc.security.core.validate.code.ValidateCodeRepository;
@@ -41,6 +42,9 @@ public class ImoocResourceServerConfig extends ResourceServerConfigurerAdapter {
 	
 	@Autowired
 	private SpringSocialConfigurer imoocSocialSecurityConfig;
+	
+	@Autowired
+	private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 	
 	@Autowired
 	private AuthenticationSuccessHandler authenticationSuccessHandler;
@@ -78,8 +82,11 @@ public class ImoocResourceServerConfig extends ResourceServerConfigurerAdapter {
 		// 验证码登陆相关配置
 		.apply(smsCodeAuthenticationSecurityConfig)
 			.and()
-		// social登陆相关配置
+		// browser social登陆相关配置
 		.apply(imoocSocialSecurityConfig)
+			.and()
+		// app social登陆相关配置
+		.apply(openIdAuthenticationSecurityConfig)
 			.and()
 		// 表单登陆相关配置
 		.formLogin()
