@@ -1,4 +1,4 @@
-package com.imooc.security.core.social;
+package com.imooc.security.core.social.view;
 
 import java.util.Map;
 

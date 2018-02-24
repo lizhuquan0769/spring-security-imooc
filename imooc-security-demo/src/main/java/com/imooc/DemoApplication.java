@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.View;
 
-import com.imooc.security.core.social.ImoocConnecStatusView;
+import com.imooc.security.core.social.view.ImoocConnecStatusView;
 import com.imooc.social.qq.DemoConnectedView;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;

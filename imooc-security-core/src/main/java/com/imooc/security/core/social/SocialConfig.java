@@ -19,6 +19,7 @@ import org.springframework.web.servlet.View;
 
 import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.properties.contsant.SecurityConstants;
+import com.imooc.security.core.social.view.ImoocConnecStatusView;
 
 @Configuration
 @EnableSocial

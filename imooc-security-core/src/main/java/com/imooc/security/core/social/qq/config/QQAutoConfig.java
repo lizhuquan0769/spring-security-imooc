@@ -15,8 +15,8 @@ import org.springframework.web.servlet.View;
 
 import com.imooc.security.core.properties.QQProperties;
 import com.imooc.security.core.properties.SecurityProperties;
-import com.imooc.security.core.social.ImoocConnectedView;
 import com.imooc.security.core.social.qq.connect.QQConnectionFactory;
+import com.imooc.security.core.social.view.ImoocConnectedView;
 
 @Configuration
 @ConditionalOnProperty(prefix = "imooc.security.social.qq", name = "app-id")
