@@ -16,6 +16,8 @@ import com.imooc.security.browser.logout.ImoocLogoutSuccessHandler;
 import com.imooc.security.browser.session.ImoocExpiredSessionStrategy;
 import com.imooc.security.browser.session.ImoocInvalidSessionStrategy;
 import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.validate.code.HttpSessionValidateCodeRepository;
+import com.imooc.security.core.validate.code.ValidateCodeRepository;
 
 /**
  * 此处配置可被使用者定制替换的bean
@@ -56,5 +58,11 @@ public class BrowserSearcurityCustomizableBeanConfig {
 	@ConditionalOnMissingBean(value = LogoutSuccessHandler.class)
 	public LogoutSuccessHandler logoutSuccessHandler() {
 		return new ImoocLogoutSuccessHandler(securityProperties.getBrowser().getSignoutSuccessUrl());
+	}
+	
+	@Bean
+	@ConditionalOnMissingBean(value = ValidateCodeRepository.class)
+	public ValidateCodeRepository validateCodeRepository() {
+		return new HttpSessionValidateCodeRepository();
 	}
 }

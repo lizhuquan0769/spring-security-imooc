@@ -15,8 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -33,11 +31,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	
 	private SecurityProperties securityProperties;
 	
-	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-	
 	private Map<String, ValidateCodeTypeEnum> urlMap = new LinkedHashMap<>();
 	
 	private AntPathMatcher antPathMatcher = new AntPathMatcher();
+	
+	private ValidateCodeRepository validateCodeRepository;
 	
 	@Override
 	public void afterPropertiesSet() throws ServletException {
@@ -81,18 +79,15 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 		filterChain.doFilter(request, response);
 	}
 
-	private void validate(ServletWebRequest request, ValidateCodeTypeEnum validateCodeType) throws ServletRequestBindingException {
+	private void validate(ServletWebRequest request, ValidateCodeTypeEnum needCodeType) throws ServletRequestBindingException {
 		
-		String sessionKey = ValidateCodeHttpUtils.getValidateCodeSessionKey(validateCodeType);
+		ValidateCode codeInRepository = validateCodeRepository.get(request, needCodeType);
 		
-		Object objectInSession = sessionStrategy.getAttribute(request, sessionKey);
-		if (objectInSession == null) {
-			throw new ValidateCodeException(String.format("需要%s验证码", validateCodeType));
+		if (codeInRepository == null) {
+			throw new ValidateCodeException(String.format("需要%s验证码", needCodeType));
 		}
 		
-		ValidateCode codeInSession = (ValidateCode) objectInSession;
-		
-		String codeInRequest = ValidateCodeHttpUtils.getValidateCodeInRequest(request, validateCodeType);
+		String codeInRequest = getCodeInRequest(request, needCodeType);
 		
 		// 验证码不能为空
 		if (StringUtils.isBlank(codeInRequest)) {
@@ -105,17 +100,22 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 		}
 		
 		// 验证码已过期
-		if (codeInSession.isExpired()) {
-			sessionStrategy.removeAttribute(request, sessionKey);
+		if (codeInRepository.isExpired()) {
+			validateCodeRepository.remove(request, needCodeType);
 			throw new ValidateCodeException("验证码已过期");
 		}
 		
 		// 验证码不匹配
-		if (!StringUtils.equalsIgnoreCase(codeInSession.getCode(), codeInRequest)) {
+		if (!StringUtils.equalsIgnoreCase(codeInRepository.getCode(), codeInRequest)) {
 			throw new ValidateCodeException("验证码不匹配");
 		}
 		
-		sessionStrategy.removeAttribute(request, sessionKey);
+		validateCodeRepository.remove(request, needCodeType);
+	}
+	
+	private String getCodeInRequest(ServletWebRequest request, ValidateCodeTypeEnum validateCodeType) {
+		String codeInRequest = request.getParameter(validateCodeType.getParameterNameOnValidate());
+		return codeInRequest;
 	}
 
 	public AuthenticationFailureHandler getAuthenticationFailureHandler() {
@@ -133,4 +133,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	public void setSecurityProperties(SecurityProperties securityProperties) {
 		this.securityProperties = securityProperties;
 	}
+
+	public ValidateCodeRepository getValidateCodeRepository() {
+		return validateCodeRepository;
+	}
+
+	public void setValidateCodeRepository(ValidateCodeRepository validateCodeRepository) {
+		this.validateCodeRepository = validateCodeRepository;
+	}
+	
 }

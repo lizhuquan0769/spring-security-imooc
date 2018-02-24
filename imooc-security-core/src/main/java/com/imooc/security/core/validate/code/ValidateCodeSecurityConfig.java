@@ -19,10 +19,14 @@ public class ValidateCodeSecurityConfig extends SecurityConfigurerAdapter<Defaul
 	@Autowired
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	
+	@Autowired
+	private ValidateCodeRepository validateCodeRepository;
+	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		
 		ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+		validateCodeFilter.setValidateCodeRepository(validateCodeRepository);
 		validateCodeFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
 		validateCodeFilter.setSecurityProperties(securityProperties);
 		validateCodeFilter.afterPropertiesSet();

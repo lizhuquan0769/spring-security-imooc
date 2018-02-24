@@ -1,7 +1,11 @@
 package com.imooc.security.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -11,7 +15,11 @@ import org.springframework.social.security.SpringSocialConfigurer;
 
 import com.imooc.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.imooc.security.core.properties.SecurityProperties;
+import com.imooc.security.core.validate.code.RedisValidateCodeRepository;
+import com.imooc.security.core.validate.code.ValidateCodeRepository;
 import com.imooc.security.core.validate.code.ValidateCodeSecurityConfig;
+
+import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * 标注为资源服务器
@@ -40,13 +48,33 @@ public class ImoocResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Autowired
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	
+	@Bean
+	@ConditionalOnMissingBean(value = ValidateCodeRepository.class)
+	public ValidateCodeRepository validateCodeRepository() {
+		return new RedisValidateCodeRepository();
+	}
+	
+    @Bean
+    @ConditionalOnMissingBean(value = RedisTemplate.class)
+    public RedisTemplate<?, ?> getRedisTemplate(){
+		JedisConnectionFactory factory = new JedisConnectionFactory();  
+	    factory.setPoolConfig(new JedisPoolConfig()); 
+	    factory.afterPropertiesSet();
+	    
+	    RedisTemplate<?,?> template = new RedisTemplate<>();
+	    template.setConnectionFactory(factory);
+	    template.afterPropertiesSet();
+	    
+	    return template;  
+    }  
+	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		
 		http
 		// 验证码校验相关配置
-//		.apply(validateCodeSecurityConfig)
-//			.and()
+		.apply(validateCodeSecurityConfig)
+			.and()
 		// 验证码登陆相关配置
 		.apply(smsCodeAuthenticationSecurityConfig)
 			.and()
