@@ -1,4 +1,4 @@
-package com.imooc.security.app.authentication;
+package com.imooc.security.app.social;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;

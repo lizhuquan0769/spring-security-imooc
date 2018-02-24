@@ -4,7 +4,7 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class DemoConnectionSignUp implements ConnectionSignUp {
 
 	@Override

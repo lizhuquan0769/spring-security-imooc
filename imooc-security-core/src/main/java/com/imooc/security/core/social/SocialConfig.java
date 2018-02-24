@@ -42,6 +42,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
 	public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
 		JdbcUsersConnectionRepository jdbcUsersConnectionRepository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
 		jdbcUsersConnectionRepository.setTablePrefix(SecurityConstants.DEFAULT_SOCIAL_USER_CONNECTION_PREFIX);
+		// 根据connection的数据创建userId
 		if (connectionSignUp != null) {
 			jdbcUsersConnectionRepository.setConnectionSignUp(connectionSignUp);
 		}

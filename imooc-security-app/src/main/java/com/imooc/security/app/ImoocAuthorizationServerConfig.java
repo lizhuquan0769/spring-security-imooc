@@ -7,9 +7,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.imooc.security.app.authentication.AppSocialAuthenticationFilterPostProcessor;
 import com.imooc.security.app.authentication.ImoocAuthenticationFailureHandler;
 import com.imooc.security.app.authentication.ImoocAuthenticationSuccessHandler;
+import com.imooc.security.app.social.AppSocialAuthenticationFilterPostProcessor;
 import com.imooc.security.core.social.SocialAuthenticationFilterPostProcessor;
 
 /**

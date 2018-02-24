@@ -9,6 +9,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -39,6 +41,9 @@ public class BrowserSecurityController {
 	@Autowired
 	private SecurityProperties securityProperties;
 	
+	/**
+	 * 该工具是基于http session
+	 */
 	@Autowired
 	private ProviderSignInUtils providerSignInUtils;
 	
@@ -91,6 +96,11 @@ public class BrowserSecurityController {
 		}
 		
 		return userInfo;
+	}
+	
+	@GetMapping("/me")
+	public Object getCurrentUser(@AuthenticationPrincipal UserDetails user) {
+		return user;
 	}
 	
 	@GetMapping("#{globalSecurityProperties.browser.session.sessionInvalidRedirectUrl}")

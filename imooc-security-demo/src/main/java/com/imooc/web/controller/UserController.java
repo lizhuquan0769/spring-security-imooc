@@ -31,6 +31,7 @@ import com.imooc.dto.User;
 import com.imooc.dto.User.UserDetailView;
 import com.imooc.dto.User.UserSimpleView;
 import com.imooc.dto.UserQueryCondition;
+import com.imooc.security.core.social.AppSignupUtils;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -43,6 +44,9 @@ public class UserController {
 	@Autowired
 	private ProviderSignInUtils providerSignInUtils;
 	
+	@Autowired
+	private AppSignupUtils appSignUpUtils;
+	
 	@PostMapping("#{globalSecurityProperties.browser.signupProcessUrl}")
 	public void regist(User user, HttpServletRequest request) {
 		// 不管是注册用户还是绑定用户，都会拿到一个用户唯一标识
@@ -50,7 +54,10 @@ public class UserController {
 		
 		logger.info(request.getParameter("type"));
 		
-		providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+		// 浏览器注册用providerSignInUtils
+//		providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+		// app注册用AppSignUpUtils
+		appSignUpUtils.doPostSignUp(new ServletWebRequest(request), userId);
 	}
 	
 	@GetMapping("/users")
