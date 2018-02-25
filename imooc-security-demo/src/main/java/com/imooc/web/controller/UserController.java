@@ -1,11 +1,13 @@
 package com.imooc.web.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -31,8 +34,15 @@ import com.imooc.dto.User;
 import com.imooc.dto.User.UserDetailView;
 import com.imooc.dto.User.UserSimpleView;
 import com.imooc.dto.UserQueryCondition;
+import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.social.AppSignupUtils;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
@@ -40,6 +50,9 @@ import io.swagger.annotations.ApiParam;
 public class UserController {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Autowired
+	private SecurityProperties securityProperties;
 	
 	@Autowired
 	private ProviderSignInUtils providerSignInUtils;
@@ -127,6 +140,22 @@ public class UserController {
 	@DeleteMapping("/users/{id:\\d+}")
 	public void delete(@PathVariable String id) {
 		logger.info(id);
+	}
+	
+	@GetMapping("/users/me")
+	public Object getCurrentUser(Authentication user, HttpServletRequest request) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException, UnsupportedEncodingException {
+		
+		String header = request.getHeader("Authorization");
+		String token = StringUtils.substringAfter(header, "bearer ");
+		
+		// 获取jwtToken的附加信息
+		Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth2().getSigningKey().getBytes("UTF-8"))
+			.parseClaimsJws(token).getBody();
+		
+		String company = (String) claims.get("company");
+		System.out.println("-->" + company);
+		
+		return user;
 	}
 	
 }

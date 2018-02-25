@@ -1,4 +1,4 @@
-package com.imooc.security.app;
+package com.imooc.security.app.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,4 +1,4 @@
-package com.imooc.security.app;
+package com.imooc.security.app.spring;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeansException;
@@ -13,7 +13,7 @@ import com.imooc.security.core.social.ImoocSpringSocialConfigurer;
  *
  */
 @Component
-public class SpringSocialConfigurerPostProcessor implements BeanPostProcessor {
+public class SpringSocialBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
