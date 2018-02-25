@@ -13,6 +13,7 @@ import org.springframework.social.security.SpringSocialConfigurer;
 
 import com.imooc.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.imooc.security.core.authentication.openid.OpenIdAuthenticationSecurityConfig;
+import com.imooc.security.core.authorize.AuthorizeConfigManager;
 import com.imooc.security.core.properties.SecurityProperties;
 import com.imooc.security.core.validate.code.RedisValidateCodeRepository;
 import com.imooc.security.core.validate.code.ValidateCodeRepository;
@@ -47,6 +48,9 @@ public class ImoocResourceServerConfig extends ResourceServerConfigurerAdapter {
 	
 	@Autowired
 	private AuthenticationFailureHandler authenticationFailureHandler;
+	
+	@Autowired
+	private AuthorizeConfigManager authorizeConfigManager;
 	
 	@Bean
 	@ConditionalOnMissingBean(value = ValidateCodeRepository.class)
@@ -106,31 +110,10 @@ public class ImoocResourceServerConfig extends ResourceServerConfigurerAdapter {
 //			.expiredSessionStrategy(sessionInformationExpiredStrategy)
 //			.and()
 //			.and()
-		// url访问授权配置
-		// 对请求授权
-		.authorizeRequests()
-			// ant匹配的请求
-			.antMatchers(
-					"/social/signup",
-					securityProperties.getBrowser().getSignupPageUrl(),
-					securityProperties.getBrowser().getSignupProcessUrl(),
-					securityProperties.getBrowser().getUnAuthenticationUrl(),
-					securityProperties.getBrowser().getSigninPageUrl(),
-					securityProperties.getBrowser().getSigninProcessUrlMobile(), 
-					securityProperties.getBrowser().getValidateCodeUrlImage(),
-					securityProperties.getBrowser().getValidateCodeUrlSms(),
-					securityProperties.getBrowser().getSession().getSessionInvalidRedirectUrl(),
-					securityProperties.getBrowser().getSignoutSuccessUrl()
-					)
-				//放行
-				.permitAll() 
-			// 而对其它任何请求
-			.anyRequest()
-				// 需要身份认证
-				.authenticated()
-			.and()
 		// csrf配置
 		.csrf()
 			.disable();
+		
+		authorizeConfigManager.config(http.authorizeRequests());
 	}
 }
