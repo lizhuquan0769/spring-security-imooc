@@ -1,6 +1,7 @@
 package com.imooc.security.core.authorize;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.imooc.security.core.properties.SecurityProperties;
 
 @Component
+@Order(Integer.MIN_VALUE)
 public class ImoocAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
 	@Autowired

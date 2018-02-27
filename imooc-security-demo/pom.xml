@@ -21,6 +21,11 @@
 			<version>${imooc.security.version}</version>
 		</dependency> -->
 		<dependency>
+			<groupId>com.imooc.security</groupId>
+			<artifactId>imooc-security-authorize</artifactId>
+			<version>${imooc.security.version}</version>
+		</dependency> 
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
