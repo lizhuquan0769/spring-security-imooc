@@ -2,7 +2,7 @@ package com.imooc.security.core.properties;
 
 public class OAuth2Properties {
 	
-	private String signingKey = "imooc";
+	private String signingKey = "imooc"; 
 	
 	private OAuth2ClientProperties[] clients = {};
 

@@ -3,7 +3,7 @@ package com.imooc.security.core.properties;
 public class OAuth2ClientProperties {
 	private String clientId;
 	private String clientSecret;
-	private int accessTokenValiditySeconds;
+	private int accessTokenValiditySeconds; 
 	public String getClientId() {
 		return clientId;
 	}
